@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harris | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a class="logo" href="#top">Harris</a>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#gallery">Art</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container" id="hero">
+      <p class="eyebrow">Welcome to my portfolio</p>
+      <h1>Harris</h1>
+      <h2>Data Science Student and Visual Artist</h2>
+      <p class="hero-intro">
+        I blend machine learning, mathematical modeling, and visual storytelling to build projects that are both technically grounded and creatively expressive.
+      </p>
+      <a class="btn" href="#projects">View My Work</a>
+    </section>
+
+    <section class="section container" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">Selected Work</p>
+        <h3>Projects</h3>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card">
+          <div class="project-image placeholder">Project Image</div>
+          <div class="project-content">
+            <h4>Music Recommendation System</h4>
+            <p>
+              Built a recommendation pipeline using Spotify and Last.fm listening data to model user taste and suggest personalized tracks.
+            </p>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-image placeholder">Project Image</div>
+          <div class="project-content">
+            <h4>Chaos Attractor Visualization</h4>
+            <p>
+              Simulated and rendered Lorenz equations to explore nonlinear dynamics through interactive 3D trajectory visualizations.
+            </p>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-image placeholder">Project Image</div>
+          <div class="project-content">
+            <h4>CNN Skin Lesion Classifier</h4>
+            <p>
+              Trained a ResNet-based convolutional model for skin lesion classification with a focus on robustness and clinical interpretability.
+            </p>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section container" id="gallery">
+      <div class="section-heading">
+        <p class="eyebrow">Creative Work</p>
+        <h3>Spray Paint Art Gallery</h3>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item placeholder">Artwork 1</div>
+        <div class="gallery-item placeholder">Artwork 2</div>
+        <div class="gallery-item placeholder">Artwork 3</div>
+        <div class="gallery-item placeholder">Artwork 4</div>
+        <div class="gallery-item placeholder">Artwork 5</div>
+        <div class="gallery-item placeholder">Artwork 6</div>
+      </div>
+    </section>
+
+    <section class="section container about" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">Who I Am</p>
+        <h3>About</h3>
+      </div>
+      <p>
+        I’m passionate about combining art, music, and data science to create experiences that feel both analytical and human. From recommendation systems to generative visual studies, I enjoy building work that connects logic with emotion.
+      </p>
+    </section>
+
+    <section class="section container" id="contact">
+      <div class="section-heading">
+        <p class="eyebrow">Get in Touch</p>
+        <h3>Contact</h3>
+      </div>
+      <ul class="contact-links">
+        <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="mailto:harris@example.com">harris@example.com</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Harris. Crafted with art + data.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
