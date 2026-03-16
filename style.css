@@ -23,19 +23,21 @@ html {
 body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   color: var(--text);
-  background: radial-gradient(circle at top right, #0b0f14 0%, var(--bg) 35%);
+  background-color: var(--bg);
   line-height: 1.7;
   position: relative;
+  overflow-x: hidden;
 }
 
 #chaos-bg {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
   pointer-events: none;
-  opacity: 1;
+  opacity: 0.9;
 }
 
 .container {
@@ -54,9 +56,8 @@ main,
   position: sticky;
   top: 0;
   backdrop-filter: blur(8px);
-  background: rgba(11, 15, 20, 0.72);
+  background: rgba(11, 15, 20, 0.8);
   border-bottom: 1px solid var(--border);
-  z-index: 100;
 }
 
 .nav {
@@ -85,8 +86,7 @@ main,
   transition: color 0.25s ease;
 }
 
-.nav-links a:hover,
-.nav-links a:focus-visible {
+.nav-links a:hover {
   color: var(--accent-2);
 }
 
@@ -135,8 +135,7 @@ h2 {
   transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.btn:hover,
-.btn:focus-visible {
+.btn:hover {
   transform: translateY(-2px);
   filter: brightness(1.12);
 }
@@ -192,8 +191,7 @@ h2 {
   font-weight: 600;
 }
 
-.project-content a:hover,
-.project-content a:focus-visible {
+.project-content a:hover {
   text-decoration: underline;
 }
 
@@ -245,8 +243,7 @@ h2 {
   transition: background 0.25s ease, transform 0.25s ease;
 }
 
-.contact-links a:hover,
-.contact-links a:focus-visible {
+.contact-links a:hover {
   background: rgba(143, 211, 255, 0.13);
   transform: translateY(-2px);
 }
@@ -276,6 +273,6 @@ h2 {
   }
 
   #chaos-bg {
-    opacity: 0.45;
+    opacity: 0.75;
   }
 }
