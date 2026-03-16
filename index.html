@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -20,8 +21,6 @@
 
 <body>
 
-<canvas id="chaos-bg"></canvas>
-
 <header class="site-header" id="top">
 
 <nav class="nav container">
@@ -31,11 +30,8 @@
 <ul class="nav-links">
 
 <li><a href="#projects">Projects</a></li>
-
 <li><a href="#gallery">Art</a></li>
-
 <li><a href="#about">About</a></li>
-
 <li><a href="#contact">Contact</a></li>
 
 </ul>
@@ -44,11 +40,11 @@
 
 </header>
 
-
 <main>
 
-
 <section class="hero container fade-in" id="hero">
+
+<canvas id="chaos-bg"></canvas>
 
 <p class="eyebrow">Welcome</p>
 
@@ -63,20 +59,17 @@ I build projects that combine machine learning, mathematical systems, and visual
 <div class="hero-buttons">
 
 <a class="btn primary" href="#projects">View Projects</a>
-
 <a class="btn secondary" href="#gallery">View Art</a>
 
 </div>
 
 </section>
 
-
 <section class="section container fade-in" id="projects">
 
 <div class="section-heading">
 
 <p class="eyebrow">Selected Work</p>
-
 <h3>Projects</h3>
 
 </div>
@@ -101,7 +94,6 @@ A machine learning recommendation pipeline combining Spotify features and Last.f
 
 </article>
 
-
 <article class="project-card">
 
 <div class="project-image placeholder">Image</div>
@@ -119,7 +111,6 @@ Simulation and visualization of nonlinear dynamical systems including the Lorenz
 </div>
 
 </article>
-
 
 <article class="project-card">
 
@@ -143,67 +134,56 @@ Deep learning model trained with ResNet architecture to classify dermatoscopic s
 
 </section>
 
-
 <section class="section container fade-in" id="gallery">
 
 <div class="section-heading">
 
 <p class="eyebrow">Creative Work</p>
-
 <h3>Spray Paint Art</h3>
 
 </div>
 
 <div class="gallery-grid">
 
-<img src="images/art1.jpg" alt="Spray paint artwork">
-
-<img src="images/art2.jpg" alt="Spray paint artwork">
-
-<img src="images/art3.jpg" alt="Spray paint artwork">
-
-<img src="images/art4.jpg" alt="Spray paint artwork">
-
-<img src="images/art5.jpg" alt="Spray paint artwork">
-
-<img src="images/art6.jpg" alt="Spray paint artwork">
+<img src="images/art1.jpg">
+<img src="images/art2.jpg">
+<img src="images/art3.jpg">
+<img src="images/art4.jpg">
+<img src="images/art5.jpg">
+<img src="images/art6.jpg">
 
 </div>
 
 </section>
-
 
 <section class="section container about fade-in" id="about">
 
 <div class="section-heading">
 
 <p class="eyebrow">About</p>
-
 <h3>Who I Am</h3>
 
 </div>
 
 <p>
 
-I am a data science student interested in machine learning, complex systems, and artistic expression. My work explores how analytical models and creative processes intersect, from music recommendation algorithms to visual studies inspired by nonlinear dynamics.
+I am a data science student interested in machine learning, complex systems, and artistic expression. My work explores how analytical models and creative processes intersect.
 
 </p>
 
 <p>
 
-Outside of coding I create spray paint art and music, often using ideas from mathematics and chaos theory to guide visual composition and sound structure.
+Outside of coding I create spray paint art and music, often using ideas from mathematics and chaos theory to guide visual composition.
 
 </p>
 
 </section>
-
 
 <section class="section container fade-in" id="contact">
 
 <div class="section-heading">
 
 <p class="eyebrow">Contact</p>
-
 <h3>Get in Touch</h3>
 
 </div>
@@ -211,9 +191,7 @@ Outside of coding I create spray paint art and music, often using ideas from mat
 <ul class="contact-links">
 
 <li><a href="https://github.com/YOURUSERNAME" target="_blank">GitHub</a></li>
-
 <li><a href="https://linkedin.com/in/YOURUSERNAME" target="_blank">LinkedIn</a></li>
-
 <li><a href="mailto:harris@email.com">Email</a></li>
 
 </ul>
@@ -222,22 +200,13 @@ Outside of coding I create spray paint art and music, often using ideas from mat
 
 </main>
 
-
 <footer class="site-footer">
 
 <p>© <span id="year"></span> Harris</p>
 
 </footer>
 
-
 <script src="script.js"></script>
 
-<script>
-
-document.getElementById("year").textContent = new Date().getFullYear()
-
-</script>
-
 </body>
-
 </html>
