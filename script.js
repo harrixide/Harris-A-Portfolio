@@ -13,6 +13,7 @@ function setupSmoothScroll() {
   navLinks.forEach(link => {
     link.addEventListener("click", event => {
       event.preventDefault()
+
       const targetId = link.getAttribute("href")
       const target = document.querySelector(targetId)
 
@@ -42,6 +43,7 @@ function setupProjectCardHover() {
 
 function setFooterYear() {
   const yearElement = document.getElementById("year")
+
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear()
   }
@@ -78,28 +80,35 @@ function initLorenzAttractor() {
   resize()
   window.addEventListener("resize", resize)
 
-  let x = 0.1
-  let y = 0
-  let z = 0
+  /* Lorenz constants */
 
   const sigma = 10
   const rho = 28
   const beta = 8 / 3
   const dt = 0.005
-
   const scale = 14
+
+  /* Two trajectories */
+
+  let x1 = 0.1
+  let y1 = 0
+  let z1 = 0
+
+  let x2 = 0.1001
+  let y2 = 0
+  let z2 = 0
 
   let angle = 0
 
-  function stepLorenz() {
+  function stepLorenz(state) {
 
-    const dx = sigma * (y - x)
-    const dy = x * (rho - z) - y
-    const dz = x * y - beta * z
+    const dx = sigma * (state.y - state.x)
+    const dy = state.x * (rho - state.z) - state.y
+    const dz = state.x * state.y - beta * state.z
 
-    x += dx * dt
-    y += dy * dt
-    z += dz * dt
+    state.x += dx * dt
+    state.y += dy * dt
+    state.z += dz * dt
 
   }
 
@@ -118,12 +127,12 @@ function initLorenzAttractor() {
 
   }
 
-  function drawPoint(px, py) {
+  function drawPoint(px, py, color) {
 
     const glow = ctx.createRadialGradient(px, py, 0, px, py, 6)
 
-    glow.addColorStop(0, "rgba(143,211,255,0.9)")
-    glow.addColorStop(1, "rgba(99,164,255,0)")
+    glow.addColorStop(0, color)
+    glow.addColorStop(1, "rgba(0,0,0,0)")
 
     ctx.fillStyle = glow
 
@@ -132,6 +141,9 @@ function initLorenzAttractor() {
     ctx.fill()
 
   }
+
+  const state1 = { x: x1, y: y1, z: z1 }
+  const state2 = { x: x2, y: y2, z: z2 }
 
   function animate() {
 
@@ -142,11 +154,14 @@ function initLorenzAttractor() {
 
     for (let i = 0; i < 12; i++) {
 
-      stepLorenz()
+      stepLorenz(state1)
+      stepLorenz(state2)
 
-      const p = project(x, y, z)
+      const p1 = project(state1.x, state1.y, state1.z)
+      const p2 = project(state2.x, state2.y, state2.z)
 
-      drawPoint(p.x, p.y)
+      drawPoint(p1.x, p1.y, "rgba(120,180,255,0.9)")
+      drawPoint(p2.x, p2.y, "rgba(255,120,200,0.9)")
 
     }
 
