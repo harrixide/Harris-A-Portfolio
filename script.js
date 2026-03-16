@@ -1,3 +1,5 @@
+console.log("NEW SCRIPT RUNNING")
+
 document.addEventListener("DOMContentLoaded", () => {
   setupSmoothScroll()
   setupProjectCardHover()
