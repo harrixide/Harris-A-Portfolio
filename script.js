@@ -42,7 +42,6 @@ function setupProjectCardHover() {
 
 function setFooterYear() {
   const yearElement = document.getElementById("year")
-
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear()
   }
@@ -61,8 +60,10 @@ function initLorenzAttractor() {
 
   function resize() {
 
-    width = window.innerWidth
-    height = window.innerHeight
+    const hero = document.getElementById("hero")
+
+    width = hero.offsetWidth
+    height = hero.offsetHeight
 
     canvas.width = width * dpr
     canvas.height = height * dpr
@@ -139,7 +140,7 @@ function initLorenzAttractor() {
     ctx.fillStyle = "rgba(11,15,20,0.08)"
     ctx.fillRect(0, 0, width, height)
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 12; i++) {
 
       stepLorenz()
 
