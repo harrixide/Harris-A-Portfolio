@@ -40,6 +40,7 @@
 
 <main>
 
+<!-- HERO -->
 <section class="hero" id="hero">
 
 <canvas id="chaos-bg"></canvas>
@@ -57,35 +58,28 @@ I build projects that combine machine learning, mathematical systems, and visual
 </p>
 
 <div class="hero-buttons">
-
 <a class="btn primary" href="#projects">View Projects</a>
 <a class="btn secondary" href="#gallery">View Art</a>
-
 </div>
 
 </div>
 
 </section>
 
+<!-- PROJECTS -->
 <section class="section container fade-in" id="projects">
 
 <div class="section-heading">
-
 <p class="eyebrow">Selected Work</p>
 <h3>Projects</h3>
-
 </div>
 
 <div class="projects-grid">
 
+<!-- MUSIC PROJECT -->
 <article class="project-card">
 
-<div class="project-image plot-container">
-  <iframe 
-    src="interactive-plots/asym_plot.html"
-    loading="lazy">
-  </iframe>
-</div>
+<div class="project-image placeholder">Demo</div>
 
 <div class="project-content">
 
@@ -95,12 +89,16 @@ I build projects that combine machine learning, mathematical systems, and visual
 A machine learning recommendation pipeline combining Spotify features and Last.fm listening histories to model user taste and recommend personalized music.
 </p>
 
+<div class="project-buttons">
+<button class="btn secondary" onclick="toggleDemo()">View Demo</button>
 <a href="https://github.com/YOURUSERNAME" target="_blank">View Code</a>
+</div>
 
 </div>
 
 </article>
 
+<!-- CHAOS -->
 <article class="project-card">
 
 <div class="project-image placeholder">Image</div>
@@ -110,15 +108,16 @@ A machine learning recommendation pipeline combining Spotify features and Last.f
 <h4>Chaos Attractor Visualization</h4>
 
 <p>
-Simulation and visualization of nonlinear dynamical systems including the Lorenz attractor to explore chaos and emergent patterns in mathematical systems.
+Simulation and visualization of nonlinear dynamical systems including the Lorenz attractor.
 </p>
 
-<a href="https://github.com/YOURUSERNAME" target="_blank">View Code</a>
+<a href="#">View Code</a>
 
 </div>
 
 </article>
 
+<!-- CNN -->
 <article class="project-card">
 
 <div class="project-image placeholder">Image</div>
@@ -128,10 +127,10 @@ Simulation and visualization of nonlinear dynamical systems including the Lorenz
 <h4>CNN Skin Lesion Classifier</h4>
 
 <p>
-Deep learning model trained with ResNet architecture to classify dermatoscopic skin lesions using the HAM10000 dataset.
+Deep learning model trained with ResNet architecture.
 </p>
 
-<a href="https://github.com/YOURUSERNAME" target="_blank">View Code</a>
+<a href="#">View Code</a>
 
 </div>
 
@@ -139,15 +138,34 @@ Deep learning model trained with ResNet architecture to classify dermatoscopic s
 
 </div>
 
+<!-- DEMO SECTION -->
+<div id="demo-section" class="demo-section">
+
+<div class="container">
+
+<h3>Interactive Music Space</h3>
+
+<p class="demo-description">
+This visualization shows how songs organize in an asymmetry-based embedding space.
+Clusters represent structural uniqueness rather than simple genre similarity.
+</p>
+
+<div class="plot-container-full">
+<iframe src="interactive-plots/asym_plot.html"></iframe>
+</div>
+
+</div>
+
+</div>
+
 </section>
 
+<!-- GALLERY -->
 <section class="section container fade-in" id="gallery">
 
 <div class="section-heading">
-
 <p class="eyebrow">Creative Work</p>
 <h3>Spray Paint Art</h3>
-
 </div>
 
 <div class="gallery-grid">
@@ -163,36 +181,26 @@ Deep learning model trained with ResNet architecture to classify dermatoscopic s
 
 </section>
 
+<!-- ABOUT -->
 <section class="section container about fade-in" id="about">
 
 <div class="section-heading">
-
 <p class="eyebrow">About</p>
 <h3>Who I Am</h3>
-
 </div>
 
 <p>
-
-I am a data science professional interested in machine learning, complex systems, and artistic expression. My work explores how analytical models and creative processes intersect.
-
-</p>
-
-<p>
-
-Outside of coding I create spray paint art and music, often using ideas from mathematics and chaos theory to guide visual composition.
-
+I am a data science student interested in machine learning, complex systems, and artistic expression.
 </p>
 
 </section>
 
+<!-- CONTACT -->
 <section class="section container fade-in" id="contact">
 
 <div class="section-heading">
-
 <p class="eyebrow">Contact</p>
 <h3>Get in Touch</h3>
-
 </div>
 
 <ul class="contact-links">
@@ -208,9 +216,7 @@ Outside of coding I create spray paint art and music, often using ideas from mat
 </main>
 
 <footer class="site-footer">
-
 <p>© <span id="year"></span> Harris</p>
-
 </footer>
 
 <script src="script.js"></script>

@@ -49,6 +49,35 @@ function setFooterYear() {
   }
 }
 
+/* =========================
+   NEW DEMO TOGGLE (IMPORTANT)
+========================= */
+
+function toggleDemo() {
+  const demo = document.getElementById("demo-section")
+
+  const isActive = demo.classList.contains("active")
+
+  if (!isActive) {
+    demo.classList.add("active")
+
+    // wait for expand animation, then scroll
+    setTimeout(() => {
+      demo.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      })
+    }, 300)
+
+  } else {
+    demo.classList.remove("active")
+  }
+}
+
+/* =========================
+   LORENZ ATTRACTOR (UNCHANGED)
+========================= */
+
 function initLorenzAttractor() {
 
   const canvas = document.getElementById("chaos-bg")
@@ -80,23 +109,14 @@ function initLorenzAttractor() {
   resize()
   window.addEventListener("resize", resize)
 
-  /* Lorenz constants */
-
   const sigma = 10
   const rho = 28
   const beta = 8 / 3
   const dt = 0.005
   const scale = 14
 
-  /* Two trajectories */
-
-  let x1 = 0.1
-  let y1 = 0
-  let z1 = 0
-
-  let x2 = 0.1001
-  let y2 = 0
-  let z2 = 0
+  let x1 = 0.1, y1 = 0, z1 = 0
+  let x2 = 0.1001, y2 = 0, z2 = 0
 
   let angle = 0
 
@@ -170,5 +190,4 @@ function initLorenzAttractor() {
   }
 
   animate()
-
 }
