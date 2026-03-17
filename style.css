@@ -160,10 +160,37 @@ h2{
   overflow:hidden;
 }
 
+/* FIXED IMAGE HANDLING */
+
 .project-image{
-  height:165px;
   border-bottom:1px solid var(--border);
 }
+
+/* only placeholder images stay small */
+.project-image.placeholder{
+  height:165px;
+}
+
+/* ----------------------------
+   PLOT EMBED (NEW)
+---------------------------- */
+
+.plot-container{
+  width:100%;
+  height:500px;
+  border-radius:1rem;
+  overflow:hidden;
+  background:#000;
+}
+
+.plot-container iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  display:block;
+}
+
+/* CONTENT */
 
 .project-content{
   padding:1rem;
