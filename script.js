@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
   setupProjectCardHover()
   setFooterYear()
   initLorenzAttractor()
+
+  // ✅ CONNECT BUTTON TO FUNCTION (THIS WAS MISSING)
+  const demoBtn = document.getElementById("demo-btn")
+
+  if (demoBtn) {
+    demoBtn.addEventListener("click", toggleDemo)
+  }
 })
 
 function setupSmoothScroll() {
@@ -50,7 +57,7 @@ function setFooterYear() {
 }
 
 /* =========================
-   NEW DEMO TOGGLE (IMPORTANT)
+   DEMO TOGGLE (FIXED)
 ========================= */
 
 function toggleDemo() {
@@ -61,13 +68,12 @@ function toggleDemo() {
   if (!isActive) {
     demo.classList.add("active")
 
-    // wait for expand animation, then scroll
     setTimeout(() => {
       demo.scrollIntoView({
         behavior: "smooth",
         block: "start"
       })
-    }, 300)
+    }, 200)
 
   } else {
     demo.classList.remove("active")
@@ -75,7 +81,7 @@ function toggleDemo() {
 }
 
 /* =========================
-   LORENZ ATTRACTOR (UNCHANGED)
+   LORENZ ATTRACTOR
 ========================= */
 
 function initLorenzAttractor() {
@@ -103,7 +109,6 @@ function initLorenzAttractor() {
     canvas.style.height = height + "px"
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-
   }
 
   resize()
@@ -121,7 +126,6 @@ function initLorenzAttractor() {
   let angle = 0
 
   function stepLorenz(state) {
-
     const dx = sigma * (state.y - state.x)
     const dy = state.x * (rho - state.z) - state.y
     const dz = state.x * state.y - beta * state.z
@@ -129,11 +133,9 @@ function initLorenzAttractor() {
     state.x += dx * dt
     state.y += dy * dt
     state.z += dz * dt
-
   }
 
   function project(px, py, pz) {
-
     const cos = Math.cos(angle)
     const sin = Math.sin(angle)
 
@@ -144,11 +146,9 @@ function initLorenzAttractor() {
       x: width / 2 + rx * scale,
       y: height / 2 + pz * scale
     }
-
   }
 
   function drawPoint(px, py, color) {
-
     const glow = ctx.createRadialGradient(px, py, 0, px, py, 6)
 
     glow.addColorStop(0, color)
@@ -159,7 +159,6 @@ function initLorenzAttractor() {
     ctx.beginPath()
     ctx.arc(px, py, 6, 0, Math.PI * 2)
     ctx.fill()
-
   }
 
   const state1 = { x: x1, y: y1, z: z1 }
@@ -182,11 +181,9 @@ function initLorenzAttractor() {
 
       drawPoint(p1.x, p1.y, "rgba(120,180,255,0.9)")
       drawPoint(p2.x, p2.y, "rgba(255,120,200,0.9)")
-
     }
 
     requestAnimationFrame(animate)
-
   }
 
   animate()
