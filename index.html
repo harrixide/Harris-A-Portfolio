@@ -1,227 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harris | Data Science + Visual Art</title>
+  <meta name="description" content="Portfolio of Harris. Data science student exploring machine learning, chaos systems, and visual art.">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<title>Harris | Data Science + Visual Art</title>
-
-<meta name="description" content="Portfolio of Harris. Data science student exploring machine learning, chaos systems, and visual art.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
-
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="site-header" id="top">
-
-<nav class="nav container">
-
-<a class="logo" href="#top">Harris</a>
-
-<ul class="nav-links">
-<li><a href="#projects">Projects</a></li>
-<li><a href="#gallery">Art</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-
-</nav>
-
-</header>
-
-<main>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-
-<canvas id="chaos-bg"></canvas>
-
-<div class="container fade-in">
-
-<p class="eyebrow">Welcome</p>
-
-<h1>Harris</h1>
-
-<h2>Data Science Student and Visual Artist</h2>
-
-<p class="hero-intro">
-I build projects that combine machine learning, mathematical systems, and visual storytelling. My work explores how structure and creativity intersect.
-</p>
-
-<div class="hero-buttons">
-<a class="btn primary" href="#projects">View Projects</a>
-<a class="btn secondary" href="#gallery">View Art</a>
-</div>
-
-</div>
-
-</section>
-
-<!-- PROJECTS -->
-<section class="section container fade-in" id="projects">
-
-<div class="section-heading">
-<p class="eyebrow">Selected Work</p>
-<h3>Projects</h3>
-</div>
-
-<div class="projects-grid">
-
-<!-- MUSIC PROJECT -->
-<article class="project-card">
-
-<div class="project-image placeholder">Demo</div>
-
-<div class="project-content">
-
-<h4>Music Recommendation System</h4>
-
-<p>
-A machine learning recommendation pipeline combining Spotify features and Last.fm listening histories to model user taste and recommend personalized music.
-</p>
-
-<div class="project-buttons">
-<button class="btn secondary" id="demo-btn">View Demo</button>
-<a href="https://github.com/YOURUSERNAME" target="_blank">View Code</a>
-</div>
-
-</div>
-
-</article>
-
-<!-- CHAOS -->
-<article class="project-card">
-
-<div class="project-image placeholder">Image</div>
-
-<div class="project-content">
-
-<h4>Chaos Attractor Visualization</h4>
-
-<p>
-Simulation and visualization of nonlinear dynamical systems including the Lorenz attractor.
-</p>
-
-<a href="#">View Code</a>
-
-</div>
-
-</article>
-
-<!-- CNN -->
-<article class="project-card">
-
-<div class="project-image placeholder">Image</div>
-
-<div class="project-content">
-
-<h4>CNN Skin Lesion Classifier</h4>
-
-<p>
-Deep learning model trained with ResNet architecture.
-</p>
-
-<a href="#">View Code</a>
-
-</div>
-
-</article>
-
-</div>
-
-<!-- DEMO SECTION -->
-<div id="demo-section" class="demo-section">
-
-<div class="container">
-
-<h3>Interactive Music Space</h3>
-
-<p class="demo-description">
-This visualization shows how songs organize in an asymmetry-based embedding space.
-Clusters represent structural uniqueness rather than simple genre similarity.
-</p>
-
-</div>
-
-<!-- FULL WIDTH PLOT (moved OUTSIDE container for space) -->
-<div class="plot-container-full">
-<iframe src="interactive-plots/asym_plot.html"></iframe>
-</div>
-
-</div>
-
-</section>
-
-<!-- GALLERY -->
-<section class="section container fade-in" id="gallery">
-
-<div class="section-heading">
-<p class="eyebrow">Creative Work</p>
-<h3>Spray Paint Art</h3>
-</div>
-
-<div class="gallery-grid">
-
-<img src="images/art1.jpg">
-<img src="images/art2.jpg">
-<img src="images/art3.jpg">
-<img src="images/art4.jpg">
-<img src="images/art5.jpg">
-<img src="images/art6.jpg">
-
-</div>
-
-</section>
-
-<!-- ABOUT -->
-<section class="section container about fade-in" id="about">
-
-<div class="section-heading">
-<p class="eyebrow">About</p>
-<h3>Who I Am</h3>
-</div>
-
-<p>
-I am a data science student interested in machine learning, complex systems, and artistic expression.
-</p>
-
-</section>
-
-<!-- CONTACT -->
-<section class="section container fade-in" id="contact">
-
-<div class="section-heading">
-<p class="eyebrow">Contact</p>
-<h3>Get in Touch</h3>
-</div>
-
-<ul class="contact-links">
-
-<li><a href="https://github.com/harrixide" target="_blank">GitHub</a></li>
-<li><a href="https://linkedin.com/in/haslam1" target="_blank">LinkedIn</a></li>
-<li><a href="mailto:acs.aslam@gmail.com">Email</a></li>
-
-</ul>
-
-</section>
-
-</main>
-
-<footer class="site-footer">
-<p>© <span id="year"></span> Harris</p>
-</footer>
-
-<script src="script.js"></script>
-
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a class="logo" href="#top">Harris</a>
+
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#gallery">Art</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <canvas id="chaos-bg"></canvas>
+
+      <div class="container hero-content fade-in">
+        <h1>Welcome</h1>
+
+        <h2>Data Science Student and Visual Artist</h2>
+
+        <p class="hero-intro">
+          I build projects that combine machine learning, mathematical systems, and visual storytelling. My work explores how structure and creativity intersect.
+        </p>
+
+        <div class="hero-buttons">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn secondary" href="#gallery">View Art</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section container fade-in" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">Selected Work</p>
+        <h3>Projects</h3>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- MUSIC PROJECT -->
+        <article class="project-card">
+          <div class="project-image placeholder">Demo</div>
+
+          <div class="project-content">
+            <h4>Music Recommendation System</h4>
+
+            <p>
+              A machine learning recommendation pipeline combining Spotify features and Last.fm listening histories to model user taste and recommend personalized music.
+            </p>
+
+            <div class="project-buttons">
+              <button class="btn secondary" id="demo-btn" type="button">View Demo</button>
+              <a href="https://github.com/YOURUSERNAME" target="_blank" rel="noopener noreferrer">View Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CHAOS -->
+        <article class="project-card">
+          <div class="project-image placeholder">Image</div>
+
+          <div class="project-content">
+            <h4>Chaos Attractor Visualization</h4>
+
+            <p>
+              Simulation and visualization of nonlinear dynamical systems including the Lorenz attractor.
+            </p>
+
+            <a href="#">View Code</a>
+          </div>
+        </article>
+
+        <!-- CNN -->
+        <article class="project-card">
+          <div class="project-image placeholder">Image</div>
+
+          <div class="project-content">
+            <h4>CNN Skin Lesion Classifier</h4>
+
+            <p>
+              Deep learning model trained with ResNet architecture.
+            </p>
+
+            <a href="#">View Code</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- DEMO SECTION -->
+      <div id="demo-section" class="demo-section">
+        <div class="demo-inner">
+          <div class="container">
+            <h3>Interactive Music Space</h3>
+
+            <p class="demo-description">
+              This visualization shows how songs organize in an asymmetry-based embedding space.
+              Clusters represent structural uniqueness rather than simple genre similarity.
+            </p>
+          </div>
+
+          <div class="plot-shell">
+            <div class="plot-container-full">
+              <iframe
+                src="interactive-plots/asym_plot.html"
+                title="Interactive Music Recommendation Plot"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section container fade-in" id="gallery">
+      <div class="section-heading">
+        <p class="eyebrow">Creative Work</p>
+        <h3>Spray Paint Art</h3>
+      </div>
+
+      <div class="gallery-grid">
+        <img src="images/art1.jpg" alt="Spray paint artwork 1">
+        <img src="images/art2.jpg" alt="Spray paint artwork 2">
+        <img src="images/art3.jpg" alt="Spray paint artwork 3">
+        <img src="images/art4.jpg" alt="Spray paint artwork 4">
+        <img src="images/art5.jpg" alt="Spray paint artwork 5">
+        <img src="images/art6.jpg" alt="Spray paint artwork 6">
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section container about fade-in" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">About</p>
+        <h3>Who I Am</h3>
+      </div>
+
+      <p>
+        I am a data science student interested in machine learning, complex systems, and artistic expression.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section container fade-in" id="contact">
+      <div class="section-heading">
+        <p class="eyebrow">Contact</p>
+        <h3>Get in Touch</h3>
+      </div>
+
+      <ul class="contact-links">
+        <li><a href="https://github.com/harrixide" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/haslam1" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="mailto:acs.aslam@gmail.com">Email</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Harris</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
-
 </html>

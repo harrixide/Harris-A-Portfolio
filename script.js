@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setFooterYear()
   initLorenzAttractor()
 
-  // ✅ CONNECT BUTTON TO FUNCTION (THIS WAS MISSING)
   const demoBtn = document.getElementById("demo-btn")
 
   if (demoBtn) {
@@ -40,10 +39,12 @@ function setupProjectCardHover() {
   cards.forEach(card => {
     card.addEventListener("mouseenter", () => {
       card.style.transform = "translateY(-6px) scale(1.02)"
+      card.style.boxShadow = "0 18px 40px rgba(0,0,0,0.28)"
     })
 
     card.addEventListener("mouseleave", () => {
       card.style.transform = "translateY(0) scale(1)"
+      card.style.boxShadow = "none"
     })
   })
 }
@@ -57,12 +58,11 @@ function setFooterYear() {
 }
 
 /* =========================
-   DEMO TOGGLE (FIXED)
+   DEMO TOGGLE
 ========================= */
 
 function toggleDemo() {
   const demo = document.getElementById("demo-section")
-
   const isActive = demo.classList.contains("active")
 
   if (!isActive) {
@@ -73,8 +73,7 @@ function toggleDemo() {
         behavior: "smooth",
         block: "start"
       })
-    }, 200)
-
+    }, 220)
   } else {
     demo.classList.remove("active")
   }
@@ -85,7 +84,6 @@ function toggleDemo() {
 ========================= */
 
 function initLorenzAttractor() {
-
   const canvas = document.getElementById("chaos-bg")
   if (!canvas) return
 
@@ -96,7 +94,6 @@ function initLorenzAttractor() {
   let dpr = Math.min(window.devicePixelRatio || 1, 2)
 
   function resize() {
-
     const hero = document.getElementById("hero")
 
     width = hero.offsetWidth
@@ -120,8 +117,8 @@ function initLorenzAttractor() {
   const dt = 0.005
   const scale = 14
 
-  let x1 = 0.1, y1 = 0, z1 = 0
-  let x2 = 0.1001, y2 = 0, z2 = 0
+  const state1 = { x: 0.1, y: 0, z: 0 }
+  const state2 = { x: 0.1001, y: 0, z: 0 }
 
   let angle = 0
 
@@ -140,11 +137,11 @@ function initLorenzAttractor() {
     const sin = Math.sin(angle)
 
     const rx = px * cos - py * sin
-    const ry = px * sin + py * cos
+    const rz = px * sin + py * cos
 
     return {
       x: width / 2 + rx * scale,
-      y: height / 2 + pz * scale
+      y: height / 2 - 55 + pz * scale * 0.95 + rz * 0.12
     }
   }
 
@@ -155,24 +152,18 @@ function initLorenzAttractor() {
     glow.addColorStop(1, "rgba(0,0,0,0)")
 
     ctx.fillStyle = glow
-
     ctx.beginPath()
     ctx.arc(px, py, 6, 0, Math.PI * 2)
     ctx.fill()
   }
 
-  const state1 = { x: x1, y: y1, z: z1 }
-  const state2 = { x: x2, y: y2, z: z2 }
-
   function animate() {
-
     angle += 0.001
 
     ctx.fillStyle = "rgba(11,15,20,0.08)"
     ctx.fillRect(0, 0, width, height)
 
     for (let i = 0; i < 12; i++) {
-
       stepLorenz(state1)
       stepLorenz(state2)
 
