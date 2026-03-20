@@ -161,6 +161,32 @@ img{
   z-index:0;
 }
 
+/* BELOW HERO BACKGROUND */
+.content-zone{
+  position:relative;
+  background:#0a1018;
+  overflow:hidden;
+  z-index:1;
+}
+
+.content-zone::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:url("assets/overlay.svg");
+  background-repeat:no-repeat;
+  background-position:center top;
+  background-size:cover;
+  opacity:0.32;
+  pointer-events:none;
+  z-index:0;
+}
+
+.content-zone > *{
+  position:relative;
+  z-index:1;
+}
+
 /* GENERAL SECTION SPACING */
 .section{
   padding:6rem 0;
@@ -392,6 +418,12 @@ img{
     width:min(96vw,96vw);
     height:78vh;
     min-height:620px;
+  }
+
+  .content-zone::before{
+    background-size:cover;
+    background-position:center top;
+    opacity:0.26;
   }
 }
 
