@@ -335,7 +335,29 @@ img{
 
 /* GALLERY */
 #gallery{
+  position:relative;
   padding-top:6.5rem;
+  overflow:hidden;
+}
+
+#gallery::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(9,14,21,0.35), rgba(9,14,21,0.5)),
+    url("assets/overlay.svg");
+  background-repeat:no-repeat;
+  background-position:center center;
+  background-size:cover;
+  opacity:1;
+  pointer-events:none;
+  z-index:0;
+}
+
+#gallery > *{
+  position:relative;
+  z-index:1;
 }
 
 .gallery-heading{
