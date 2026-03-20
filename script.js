@@ -1,4 +1,4 @@
-console.log("NEW SCRIPT6 RUNNING")
+console.log("NEW SCRIPT7 RUNNING")
 
 document.addEventListener("DOMContentLoaded", () => {
   setupSmoothScroll()
@@ -57,10 +57,6 @@ function setFooterYear() {
   }
 }
 
-/* =========================
-   DEMO TOGGLE
-========================= */
-
 function toggleDemo() {
   const demo = document.getElementById("demo-section")
   const isActive = demo.classList.contains("active")
@@ -78,10 +74,6 @@ function toggleDemo() {
     demo.classList.remove("active")
   }
 }
-
-/* =========================
-   LORENZ ATTRACTOR
-========================= */
 
 function initLorenzAttractor() {
   const canvas = document.getElementById("chaos-bg")
