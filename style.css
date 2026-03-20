@@ -164,7 +164,15 @@ img{
 /* BELOW HERO BACKGROUND */
 .content-zone{
   position:relative;
-  background:#0a1018;
+  background:
+    linear-gradient(
+      to bottom,
+      #0b0f14 0%,
+      #0f141d 8%,
+      #111826 18%,
+      #0e1520 38%,
+      #0a1018 100%
+    );
   overflow:hidden;
   z-index:1;
 }
@@ -177,14 +185,33 @@ img{
   background-repeat:no-repeat;
   background-position:center top;
   background-size:cover;
-  opacity:0.32;
+  opacity:0.55;
   pointer-events:none;
   z-index:0;
 }
 
+.content-zone::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:240px;
+  background:linear-gradient(
+    to bottom,
+    rgba(11,15,20,1) 0%,
+    rgba(11,15,20,0.92) 20%,
+    rgba(11,15,20,0.7) 45%,
+    rgba(11,15,20,0.35) 72%,
+    rgba(11,15,20,0) 100%
+  );
+  pointer-events:none;
+  z-index:1;
+}
+
 .content-zone > *{
   position:relative;
-  z-index:1;
+  z-index:2;
 }
 
 /* GENERAL SECTION SPACING */
@@ -217,7 +244,7 @@ img{
 }
 
 .project-card{
-  background:var(--surface);
+  background:rgba(17,24,38,0.92);
   border:1px solid var(--border);
   border-radius:1.1rem;
   overflow:hidden;
@@ -325,7 +352,7 @@ img{
 }
 
 .art-card{
-  background:var(--surface);
+  background:rgba(17,24,38,0.92);
   border:1px solid var(--border);
   border-radius:1rem;
   overflow:hidden;
@@ -338,30 +365,6 @@ img{
   min-height:320px;
   object-fit:cover;
   display:block;
-}
-
-/* TABLET */
-@media (max-width: 900px){
-  .gallery-grid{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-  }
-
-  .art-card,
-  .art-card img{
-    min-height:280px;
-  }
-}
-
-/* MOBILE */
-@media (max-width: 640px){
-  .gallery-grid{
-    grid-template-columns:1fr;
-  }
-
-  .art-card,
-  .art-card img{
-    min-height:240px;
-  }
 }
 
 /* ABOUT */
@@ -403,7 +406,7 @@ img{
   opacity:1;
 }
 
-/* MOBILE */
+/* TABLET */
 @media (max-width: 900px){
   .hero{
     min-height:70vh;
@@ -420,13 +423,27 @@ img{
     min-height:620px;
   }
 
+  .gallery-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .art-card,
+  .art-card img{
+    min-height:280px;
+  }
+
   .content-zone::before{
     background-size:cover;
     background-position:center top;
-    opacity:0.26;
+    opacity:0.42;
+  }
+
+  .content-zone::after{
+    height:180px;
   }
 }
 
+/* MOBILE */
 @media (max-width: 640px){
   .nav{
     flex-direction:column;
@@ -496,6 +513,11 @@ img{
 @media (max-width: 480px){
   .gallery-grid{
     grid-template-columns:1fr;
+  }
+
+  .art-card,
+  .art-card img{
+    min-height:240px;
   }
 
   .plot-container-full{
