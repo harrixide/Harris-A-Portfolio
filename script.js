@@ -1,4 +1,4 @@
-console.log("NEW SCRIPT5 RUNNING")
+console.log("NEW SCRIPT6 RUNNING")
 
 document.addEventListener("DOMContentLoaded", () => {
   setupSmoothScroll()
