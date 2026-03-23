@@ -1,16 +1,12 @@
-console.log("NEW SCRIPT7 RUNNING")
+console.log("NEW SCRIPT8 RUNNING")
 
 document.addEventListener("DOMContentLoaded", () => {
   setupSmoothScroll()
   setupProjectCardHover()
   setFooterYear()
   initLorenzAttractor()
-
-  const demoBtn = document.getElementById("demo-btn")
-
-  if (demoBtn) {
-    demoBtn.addEventListener("click", toggleDemo)
-  }
+  setupDemoToggles()
+  setupImageFallbacks()
 })
 
 function setupSmoothScroll() {
@@ -57,22 +53,57 @@ function setFooterYear() {
   }
 }
 
-function toggleDemo() {
-  const demo = document.getElementById("demo-section")
-  const isActive = demo.classList.contains("active")
+function setupDemoToggles() {
+  const buttons = document.querySelectorAll(".demo-toggle-btn")
 
-  if (!isActive) {
-    demo.classList.add("active")
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      const projectCard = button.closest(".project-card")
+      const demo = projectCard.querySelector(".inline-demo")
+      const isActive = demo.classList.contains("active")
 
-    setTimeout(() => {
-      demo.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+      document.querySelectorAll(".inline-demo").forEach(section => {
+        section.classList.remove("active")
       })
-    }, 220)
-  } else {
-    demo.classList.remove("active")
-  }
+
+      document.querySelectorAll(".demo-toggle-btn").forEach(btn => {
+        btn.textContent = "View Demo"
+      })
+
+      if (!isActive) {
+        demo.classList.add("active")
+        button.textContent = "Hide Demo"
+
+        setTimeout(() => {
+          demo.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+          })
+        }, 180)
+      }
+    })
+  })
+}
+
+function setupImageFallbacks() {
+  const projectImages = document.querySelectorAll(".project-image")
+
+  projectImages.forEach(image => {
+    image.addEventListener("error", () => {
+      const frame = image.closest(".project-image-frame")
+      if (!frame) return
+
+      frame.classList.add("missing-image")
+      image.style.display = "none"
+
+      if (!frame.querySelector(".missing-image-label")) {
+        const label = document.createElement("div")
+        label.className = "missing-image-label"
+        label.textContent = "Drop image1.png into this project folder"
+        frame.appendChild(label)
+      }
+    })
+  })
 }
 
 function initLorenzAttractor() {

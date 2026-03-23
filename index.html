@@ -29,7 +29,6 @@
 
   <main>
 
-    <!-- HERO -->
     <section class="hero" id="hero">
       <canvas id="chaos-bg"></canvas>
 
@@ -51,7 +50,6 @@
 
     <div class="content-zone">
 
-      <!-- PROJECTS -->
       <section class="section projects-section fade-in" id="projects">
         <div class="container">
           <div class="section-heading">
@@ -62,7 +60,13 @@
           <div class="projects-grid">
 
             <article class="project-card">
-              <div class="project-image placeholder">Demo</div>
+              <div class="project-image-frame">
+                <img
+                  src="folder/projects/music/image1.png"
+                  alt="Music Recommendation System preview"
+                  class="project-image"
+                >
+              </div>
 
               <div class="project-content">
                 <h4>Music Recommendation System</h4>
@@ -72,14 +76,37 @@
                 </p>
 
                 <div class="project-buttons">
-                  <button class="btn secondary" id="demo-btn" type="button">View Demo</button>
+                  <button class="btn secondary demo-toggle-btn" type="button">View Demo</button>
                   <a href="https://github.com/YOURUSERNAME" target="_blank" rel="noopener noreferrer">View Code</a>
+                </div>
+
+                <div class="inline-demo">
+                  <div class="inline-demo-copy">
+                    <h5>Interactive Music Space</h5>
+                    <p>
+                      Drop your HTML demo file into the interactive-plots folder and it will load here.
+                    </p>
+                  </div>
+
+                  <div class="inline-demo-frame">
+                    <iframe
+                      src="interactive-plots/asym_plot.html"
+                      title="Music Recommendation Demo"
+                      loading="lazy">
+                    </iframe>
+                  </div>
                 </div>
               </div>
             </article>
 
             <article class="project-card">
-              <div class="project-image placeholder">Image</div>
+              <div class="project-image-frame">
+                <img
+                  src="folder/projects/chaos/image1.png"
+                  alt="Chaos Attractor Visualization preview"
+                  class="project-image"
+                >
+              </div>
 
               <div class="project-content">
                 <h4>Chaos Attractor Visualization</h4>
@@ -88,51 +115,74 @@
                   Simulation and visualization of nonlinear dynamical systems including the Lorenz attractor.
                 </p>
 
-                <a href="#">View Code</a>
+                <div class="project-buttons">
+                  <button class="btn secondary demo-toggle-btn" type="button">View Demo</button>
+                  <a href="#" target="_blank" rel="noopener noreferrer">View Code</a>
+                </div>
+
+                <div class="inline-demo">
+                  <div class="inline-demo-copy">
+                    <h5>Chaos Demo</h5>
+                    <p>
+                      Put your chaos project HTML into interactive-plots/chaos_demo.html and it will appear here.
+                    </p>
+                  </div>
+
+                  <div class="inline-demo-frame">
+                    <iframe
+                      src="interactive-plots/chaos_demo.html"
+                      title="Chaos Visualization Demo"
+                      loading="lazy">
+                    </iframe>
+                  </div>
+                </div>
               </div>
             </article>
 
             <article class="project-card">
-              <div class="project-image placeholder">Image</div>
+              <div class="project-image-frame">
+                <img
+                  src="folder/projects/skin/image1.png"
+                  alt="CNN Skin Lesion Classifier preview"
+                  class="project-image"
+                >
+              </div>
 
               <div class="project-content">
                 <h4>CNN Skin Lesion Classifier</h4>
 
                 <p>
-                  Deep learning model trained with ResNet architecture.
+                  Deep learning model trained with ResNet architecture for skin lesion image classification.
                 </p>
 
-                <a href="https://github.com/harrixide/Skin_lession_cnn_analysis.git">View Code</a>
-              </div>
-            </article>
-          </div>
+                <div class="project-buttons">
+                  <button class="btn secondary demo-toggle-btn" type="button">View Demo</button>
+                  <a href="https://github.com/harrixide/Skin_lession_cnn_analysis.git" target="_blank" rel="noopener noreferrer">View Code</a>
+                </div>
 
-          <div id="demo-section" class="demo-section">
-            <div class="demo-inner">
-              <div class="demo-copy">
-                <h3>Interactive Music Space</h3>
+                <div class="inline-demo">
+                  <div class="inline-demo-copy">
+                    <h5>Classifier Demo</h5>
+                    <p>
+                      Put your classifier demo HTML into interactive-plots/skin_demo.html and it will appear here.
+                    </p>
+                  </div>
 
-                <p class="demo-description">
-                  This visualization shows how songs organize in an asymmetry-based embedding space.
-                  Clusters represent structural uniqueness rather than simple genre similarity.
-                </p>
-              </div>
-
-              <div class="plot-shell">
-                <div class="plot-container-full">
-                  <iframe
-                    src="interactive-plots/asym_plot.html"
-                    title="Interactive Music Recommendation Plot"
-                    loading="lazy">
-                  </iframe>
+                  <div class="inline-demo-frame">
+                    <iframe
+                      src="interactive-plots/skin_demo.html"
+                      title="Skin Lesion Classifier Demo"
+                      loading="lazy">
+                    </iframe>
+                  </div>
                 </div>
               </div>
-            </div>
+            </article>
+
           </div>
         </div>
       </section>
 
-      <!-- GALLERY -->
       <section class="section fade-in gallery-section" id="gallery">
         <div class="container">
           <div class="section-heading gallery-heading">
@@ -179,30 +229,32 @@
         </div>
       </section>
 
-      <!-- ABOUT -->
-      <section class="section container about fade-in" id="about">
-        <div class="section-heading">
-          <p class="eyebrow">About</p>
-          <h3>Who I Am</h3>
-        </div>
+      <section class="section about-section fade-in" id="about">
+        <div class="container about">
+          <div class="section-heading">
+            <p class="eyebrow">About</p>
+            <h3>Who I Am</h3>
+          </div>
 
-        <p>
-          I am a data science student interested in machine learning, complex systems, and artistic expression.
-        </p>
+          <p>
+            I am a data science student interested in machine learning, complex systems, and artistic expression.
+          </p>
+        </div>
       </section>
 
-      <!-- CONTACT -->
-      <section class="section container fade-in" id="contact">
-        <div class="section-heading">
-          <p class="eyebrow">Contact</p>
-          <h3>Get in Touch</h3>
-        </div>
+      <section class="section contact-section fade-in" id="contact">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Contact</p>
+            <h3>Get in Touch</h3>
+          </div>
 
-        <ul class="contact-links">
-          <li><a href="https://github.com/harrixide" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-          <li><a href="https://linkedin.com/in/haslam1" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-          <li><a href="mailto:acs.aslam@gmail.com">Email</a></li>
-        </ul>
+          <ul class="contact-links">
+            <li><a href="https://github.com/harrixide" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://linkedin.com/in/haslam1" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="mailto:acs.aslam@gmail.com">Email</a></li>
+          </ul>
+        </div>
       </section>
 
     </div>
