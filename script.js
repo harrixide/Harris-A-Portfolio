@@ -1,4 +1,4 @@
-console.log("NEW SCRIPT10 RUNNING")
+console.log("NEW SCRIPT11 RUNNING")
 
 document.addEventListener("DOMContentLoaded", () => {
   setupSmoothScroll()
@@ -58,8 +58,9 @@ function setupDemoButtons() {
   const demoSection = document.getElementById("demo-section")
   const demoTitle = document.getElementById("demo-title")
   const demoFrame = document.getElementById("demo-frame")
+  const demoOpenLink = document.getElementById("demo-open-link")
 
-  if (!buttons.length || !demoSection || !demoTitle || !demoFrame) return
+  if (!buttons.length || !demoSection || !demoTitle || !demoFrame || !demoOpenLink) return
 
   let activeButton = null
 
@@ -73,6 +74,7 @@ function setupDemoButtons() {
       if (isOpen && isSameButton) {
         demoSection.classList.remove("active")
         demoFrame.src = ""
+        demoOpenLink.href = "#"
         button.textContent = "View Demo"
         activeButton = null
         return
@@ -84,6 +86,7 @@ function setupDemoButtons() {
 
       demoTitle.textContent = title
       demoFrame.src = src
+      demoOpenLink.href = src
       demoSection.classList.add("active")
       button.textContent = "Hide Demo"
       activeButton = button
