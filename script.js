@@ -1,11 +1,11 @@
-console.log("NEW SCRIPT8 RUNNING")
+console.log("NEW SCRIPT10 RUNNING")
 
 document.addEventListener("DOMContentLoaded", () => {
   setupSmoothScroll()
   setupProjectCardHover()
   setFooterYear()
   initLorenzAttractor()
-  setupDemoToggles()
+  setupDemoButtons()
   setupImageFallbacks()
 })
 
@@ -53,34 +53,47 @@ function setFooterYear() {
   }
 }
 
-function setupDemoToggles() {
-  const buttons = document.querySelectorAll(".demo-toggle-btn")
+function setupDemoButtons() {
+  const buttons = document.querySelectorAll(".demo-btn")
+  const demoSection = document.getElementById("demo-section")
+  const demoTitle = document.getElementById("demo-title")
+  const demoFrame = document.getElementById("demo-frame")
+
+  if (!buttons.length || !demoSection || !demoTitle || !demoFrame) return
+
+  let activeButton = null
 
   buttons.forEach(button => {
     button.addEventListener("click", () => {
-      const projectCard = button.closest(".project-card")
-      const demo = projectCard.querySelector(".inline-demo")
-      const isActive = demo.classList.contains("active")
+      const title = button.dataset.demoTitle || "Project Demo"
+      const src = button.dataset.demoSrc || ""
+      const isOpen = demoSection.classList.contains("active")
+      const isSameButton = activeButton === button
 
-      document.querySelectorAll(".inline-demo").forEach(section => {
-        section.classList.remove("active")
-      })
+      if (isOpen && isSameButton) {
+        demoSection.classList.remove("active")
+        demoFrame.src = ""
+        button.textContent = "View Demo"
+        activeButton = null
+        return
+      }
 
-      document.querySelectorAll(".demo-toggle-btn").forEach(btn => {
+      buttons.forEach(btn => {
         btn.textContent = "View Demo"
       })
 
-      if (!isActive) {
-        demo.classList.add("active")
-        button.textContent = "Hide Demo"
+      demoTitle.textContent = title
+      demoFrame.src = src
+      demoSection.classList.add("active")
+      button.textContent = "Hide Demo"
+      activeButton = button
 
-        setTimeout(() => {
-          demo.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-          })
-        }, 180)
-      }
+      setTimeout(() => {
+        demoSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        })
+      }, 220)
     })
   })
 }
