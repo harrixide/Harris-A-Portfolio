@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harris | Data Science + Visual Art</title>
+  <meta name="description" content="Portfolio of Harris. Data science student exploring machine learning, chaos systems, and visual art.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a class="logo" href="#top">Harris</a>
+
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#gallery">Art</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero" id="hero">
+      <canvas id="chaos-bg"></canvas>
+
+      <div class="container hero-content fade-in">
+        <h1>Welcome</h1>
+
+        <h2>Data Science Student and Visual Artist</h2>
+
+        <p class="hero-intro">
+          I build projects that combine machine learning, mathematical systems, and visual storytelling. My work explores how structure and creativity intersect.
+        </p>
+
+        <div class="hero-buttons">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn secondary" href="#gallery">View Art</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="content-zone">
+
+      <section class="section projects-section fade-in" id="projects">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Selected Work</p>
+            <h3>Projects</h3>
+          </div>
+
+          <div class="projects-grid">
+
+            <article class="project-card">
+              <div class="project-image-frame">
+                <img
+                  src="folder/projects/music/image1.png"
+                  alt="Music Recommendation System preview"
+                  class="project-image"
+                >
+              </div>
+
+              <div class="project-content">
+                <h4>Music Recommendation System</h4>
+
+                <p>
+                  A machine learning recommendation pipeline combining Spotify features, asymmetry projections, and trajectory analysis to recommend similar and structurally distinct music.
+                </p>
+
+                <div class="project-buttons">
+                  <button
+                    class="btn secondary demo-btn"
+                    type="button"
+                    data-demo-title="Interactive Music Space"
+                    data-demo-src="interactive-plots/asym_plot.html">
+                    View Demo
+                  </button>
+
+                  <a
+                    class="btn secondary"
+                    href="recommender/index.html"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    View Recommender
+                  </a>
+
+                  <a href="https://github.com/harrixide/Music-Recomendation-System" target="_blank" rel="noopener noreferrer">View Code</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-image-frame">
+                <img
+                  src="folder/projects/chaos/image1.png"
+                  alt="Chaos Attractor Visualization preview"
+                  class="project-image"
+                >
+              </div>
+
+              <div class="project-content">
+                <h4>Chaos Attractor Visualization</h4>
+
+                <p>
+                  Simulation and visualization of nonlinear dynamical systems including the Lorenz attractor.
+                </p>
+
+                <div class="project-buttons">
+                  <span class="btn secondary disabled">
+                    Demo Coming Soon
+                  </span>
+
+                  <a href="#" target="_blank" rel="noopener noreferrer">View Code</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-image-frame">
+                <img
+                  src="folder/projects/skin/image1.png"
+                  alt="CNN Skin Lesion Classifier preview"
+                  class="project-image"
+                >
+              </div>
+
+              <div class="project-content">
+                <h4>CNN Skin Lesion Classifier</h4>
+
+                <p>
+                  Deep learning model trained with ResNet architecture for skin lesion image classification.
+                </p>
+
+                <div class="project-buttons">
+                  <a
+                    href="https://skin-lesion-classifier-demo-ujxzy8l2dbfbdlzcsgrupu.streamlit.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn secondary">
+                    View Demo
+                  </a>
+
+                  <a href="https://github.com/harrixide/Skin_lession_cnn_analysis.git" target="_blank" rel="noopener noreferrer">View Code</a>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <div id="demo-section" class="demo-section">
+            <div class="demo-inner">
+              <div class="demo-copy">
+                <h3 id="demo-title">Project Demo</h3>
+                <a
+                  id="demo-open-link"
+                  class="demo-open-link"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Open Demo Full Screen
+                </a>
+              </div>
+
+              <div class="plot-shell">
+                <div class="plot-container-full">
+                  <iframe
+                    id="demo-frame"
+                    src=""
+                    title="Project Demo"
+                    loading="lazy">
+                  </iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section fade-in gallery-section" id="gallery">
+        <div class="container">
+          <div class="section-heading gallery-heading">
+            <p class="eyebrow">Creative Work</p>
+
+            <div class="gallery-title-row">
+              <h3>Spray Paint Art</h3>
+
+              <div class="gallery-gif-wrap">
+                <img src="assets/spraypaint.gif" alt="Animated spray paint art preview" class="gallery-title-gif">
+              </div>
+            </div>
+          </div>
+
+          <p class="gallery-intro">
+            A selection of six spray paint pieces exploring atmosphere, motion, and texture.
+          </p>
+
+          <div class="gallery-grid">
+            <figure class="art-card"><img src="art/art1.jpg" alt="Spray paint artwork 1"></figure>
+            <figure class="art-card"><img src="art/art2.jpg" alt="Spray paint artwork 2"></figure>
+            <figure class="art-card"><img src="art/art3.svg" alt="Spray paint artwork 3"></figure>
+            <figure class="art-card"><img src="art/art4.jpg" alt="Spray paint artwork 4"></figure>
+            <figure class="art-card"><img src="art/art5.jpg" alt="Spray paint artwork 5"></figure>
+            <figure class="art-card"><img src="art/art6.jpg" alt="Spray paint artwork 6"></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section about-section fade-in" id="about">
+        <div class="container about">
+          <div class="section-heading">
+            <p class="eyebrow">About</p>
+            <h3>Who I Am</h3>
+          </div>
+
+          <p>
+            I am a data science graduate interested in machine learning, complex systems, and artistic expression.
+          </p>
+        </div>
+      </section>
+
+      <section class="section contact-section fade-in" id="contact">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Contact</p>
+            <h3>Get in Touch</h3>
+          </div>
+
+          <ul class="contact-links">
+            <li><a href="https://github.com/harrixide" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://linkedin.com/in/haslam1" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="mailto:acs.aslam@gmail.com">Email</a></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Harris</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

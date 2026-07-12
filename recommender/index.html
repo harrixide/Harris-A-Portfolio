@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Recommender | Harris</title>
+  <meta name="description" content="Interactive music recommender using audio similarity, asymmetry, and trajectory analysis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="recommender.css">
+</head>
+<body>
+  <header class="rec-header">
+    <div class="rec-container rec-nav">
+      <a class="brand" href="../index.html">Harris</a>
+      <a class="back-link" href="../index.html">Back to Portfolio</a>
+    </div>
+  </header>
+
+  <main class="rec-container">
+    <section class="intro">
+      <p class="eyebrow">Interactive Project</p>
+      <h1>Music Recommendation System</h1>
+      <p>
+        Search for a song, inspect its audio and trajectory profile, then compare recommendation methods.
+      </p>
+    </section>
+
+    <section class="search-panel">
+      <label for="song-search">Search songs</label>
+      <div class="search-row">
+        <input
+          id="song-search"
+          type="search"
+          placeholder="Type a song or artist"
+          autocomplete="off"
+        >
+        <select id="song-select" aria-label="Select a song">
+          <option value="">Loading songs...</option>
+        </select>
+      </div>
+      <p id="load-status" class="status" role="status"></p>
+    </section>
+
+    <section id="selected-song" class="song-panel hidden">
+      <div class="song-heading">
+        <div>
+          <p class="eyebrow">Selected Song</p>
+          <h2 id="selected-title"></h2>
+          <p id="selected-artist" class="artist"></p>
+        </div>
+        <div id="trajectory-badge" class="trajectory-badge"></div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>Trajectory score</span>
+          <strong id="trajectory-score">Unavailable</strong>
+        </article>
+        <article class="stat-card">
+          <span>Tempo</span>
+          <strong id="tempo-value">Unavailable</strong>
+        </article>
+        <article class="stat-card">
+          <span>Energy</span>
+          <strong id="energy-value">Unavailable</strong>
+        </article>
+        <article class="stat-card">
+          <span>Danceability</span>
+          <strong id="danceability-value">Unavailable</strong>
+        </article>
+      </div>
+
+      <details class="feature-details">
+        <summary>View all audio features</summary>
+        <div id="feature-grid" class="feature-grid"></div>
+      </details>
+    </section>
+
+    <section id="recommendation-section" class="recommendation-panel hidden">
+      <div class="section-title-row">
+        <div>
+          <p class="eyebrow">Recommendations</p>
+          <h2>Choose a method</h2>
+        </div>
+      </div>
+
+      <div class="method-tabs" role="tablist" aria-label="Recommendation method">
+        <button class="method-tab active" type="button" data-method="cosine">Audio Similarity</button>
+        <button class="method-tab" type="button" data-method="unique">Unique</button>
+        <button class="method-tab" type="button" data-method="directional">Directional</button>
+        <button class="method-tab" type="button" data-method="trajectory">Trajectory</button>
+      </div>
+
+      <p id="method-description" class="method-description"></p>
+      <div id="recommendation-list" class="recommendation-list"></div>
+    </section>
+  </main>
+
+  <script src="recommender.js"></script>
+</body>
+</html>
