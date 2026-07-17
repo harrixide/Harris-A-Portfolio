@@ -1,8 +1,7 @@
 const METHOD_DESCRIPTIONS = {
-  cosine: "Closest songs using standardized audio features and cosine similarity.",
-  unique: "Familiar neighbors that stand out most strongly in the asymmetry space.",
-  directional: "Songs that follow the dominant asymmetry direction within the selected song's neighborhood.",
-  trajectory: "Songs with the most similar trajectory complexity score."
+  cosine: "Find the songs that sound the most similar based on their audio characteristics. This method compares features such as tempo, energy, danceability, acousticness, and more to recommend the closest overall matches.",
+  unique: "We first find the songs that are most musically similar, then recommend the one that stands out the most within that group to give you something familiar with a twist.",
+  trajectory: "Songs whose musical journey changes most similarly over time. We split each song into 30-second segments, analyze each segment individually, and recommend songs that evolve in the most similar way from beginning to end."
 }
 
 let songs = []
@@ -130,7 +129,7 @@ function refreshSongSearch(selectFirst) {
   if (filteredSongs.length === 0) {
     setStatus(
       searchMode === "trajectory"
-        ? "No matching songs with trajectory recommendations were found."
+        ? "No matching songs with musical journey recommendations were found."
         : "No matching songs found."
     )
     return
@@ -148,8 +147,8 @@ function updateSearchModeNote(poolSize) {
   const note = document.getElementById("search-mode-note")
 
   note.textContent = searchMode === "trajectory"
-    ? `Showing ${poolSize.toLocaleString()} songs with both trajectory scores and trajectory recommendations.`
-    : `Showing the full catalog of ${songs.length.toLocaleString()} songs. Songs without trajectory data display Trajectory unavailable.`
+    ? `Showing ${poolSize.toLocaleString()} songs with musical journey analysis and recommendations.`
+    : `Showing the full catalog of ${songs.length.toLocaleString()} songs. Songs without musical journey data display Journey unavailable.`
 }
 
 function populateSongSelect(songList) {
@@ -215,10 +214,10 @@ function renderSelectedSong(song) {
   const level = String(song.traj_level || song.trajectory?.traj_level || "unavailable").toLowerCase()
 
   badge.textContent = available && ["low", "medium", "high"].includes(level)
-    ? `${level} trajectory`
+    ? `${level} journey change`
     : available
-      ? "Trajectory available"
-      : "Trajectory unavailable"
+      ? "Journey available"
+      : "Journey unavailable"
 
   badge.className = "trajectory-badge"
   if (available && ["low", "medium", "high"].includes(level)) {
@@ -237,8 +236,8 @@ function updateTrajectoryMethod(song) {
   trajectoryTab.setAttribute("aria-disabled", String(!available))
 
   if (!available) {
-    trajectoryTab.title = "Trajectory recommendations are unavailable for this song"
-    note.textContent = "Trajectory recommendations are unavailable for this song. Choose Trajectory songs only above to find compatible songs."
+    trajectoryTab.title = "Musical journey recommendations are unavailable for this song"
+    note.textContent = "Similar Musical Journey recommendations are unavailable for this song. Choose Musical journey songs only above to find compatible songs."
     note.classList.remove("hidden")
 
     if (activeMethod === "trajectory") {
@@ -284,7 +283,7 @@ function renderRecommendations() {
     const empty = document.createElement("div")
     empty.className = "empty-state"
     empty.textContent = activeMethod === "trajectory"
-      ? "Trajectory recommendations are unavailable for this song."
+      ? "Similar Musical Journey recommendations are unavailable for this song."
       : "No recommendations are available for this method."
     list.appendChild(empty)
     return
