@@ -62,7 +62,7 @@ function bindControls() {
       searchMode = button.dataset.searchMode
       searchModeButtons.forEach(item => item.classList.remove("active"))
       button.classList.add("active")
-      document.getElementById("song-search").value = ""
+      searchInput.value = ""
       refreshSongSearch(true)
     })
   })
@@ -148,8 +148,8 @@ function updateSearchModeNote(poolSize) {
   const note = document.getElementById("search-mode-note")
 
   note.textContent = searchMode === "trajectory"
-    ? `Trajectory mode: ${poolSize.toLocaleString()} songs with usable trajectory scores and recommendations. The dropdown is now filtered to only those songs.`
-    : `All songs mode: showing the full catalog. Songs without usable trajectory data will display Trajectory unavailable.`
+    ? `Showing ${poolSize.toLocaleString()} songs with both trajectory scores and trajectory recommendations.`
+    : `Showing the full catalog of ${songs.length.toLocaleString()} songs. Songs without trajectory data display Trajectory unavailable.`
 }
 
 function populateSongSelect(songList) {
@@ -238,7 +238,7 @@ function updateTrajectoryMethod(song) {
 
   if (!available) {
     trajectoryTab.title = "Trajectory recommendations are unavailable for this song"
-    note.textContent = "Trajectory recommendations are unavailable for this song. Choose Trajectory songs only above to select a compatible song."
+    note.textContent = "Trajectory recommendations are unavailable for this song. Choose Trajectory songs only above to find compatible songs."
     note.classList.remove("hidden")
 
     if (activeMethod === "trajectory") {
@@ -341,9 +341,8 @@ function renderRecommendations() {
 }
 
 function formatNumber(value, digits) {
-  return isUsableNumber(value)
-    ? Number(value).toFixed(digits)
-    : "Unavailable"
+  if (!isUsableNumber(value)) return "Unavailable"
+  return Number(value).toFixed(digits)
 }
 
 function setStatus(message, isError = false) {
