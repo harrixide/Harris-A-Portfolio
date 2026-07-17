@@ -9,6 +9,7 @@ let songs = []
 let recommendations = {}
 let selectedSongId = null
 let activeMethod = "cosine"
+let searchMode = "all"
 
 document.addEventListener("DOMContentLoaded", init)
 
@@ -32,10 +33,7 @@ async function init() {
       throw new Error("songs.json is empty.")
     }
 
-    populateSongSelect(songs)
-    setStatus(`${songs.length.toLocaleString()} songs loaded.`)
-
-    selectSong(String(songs[0].id))
+    refreshSongSearch(true)
   } catch (error) {
     console.error(error)
     setStatus(
@@ -49,25 +47,9 @@ function bindControls() {
   const searchInput = document.getElementById("song-search")
   const songSelect = document.getElementById("song-select")
   const tabs = document.querySelectorAll(".method-tab")
+  const searchModeButtons = document.querySelectorAll(".search-mode")
 
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim().toLowerCase()
-
-    const filteredSongs = songs.filter(song => {
-      const songName = String(song.song || "").toLowerCase()
-      const artistName = String(song.artist || "").toLowerCase()
-
-      return songName.includes(query) || artistName.includes(query)
-    })
-
-    populateSongSelect(filteredSongs)
-
-    if (filteredSongs.length > 0) {
-      selectSong(String(filteredSongs[0].id))
-    } else {
-      setStatus("No matching songs found.")
-    }
-  })
+  searchInput.addEventListener("input", () => refreshSongSearch(false))
 
   songSelect.addEventListener("change", event => {
     if (event.target.value !== "") {
@@ -75,22 +57,89 @@ function bindControls() {
     }
   })
 
+  searchModeButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      searchMode = button.dataset.searchMode
+      searchModeButtons.forEach(item => item.classList.remove("active"))
+      button.classList.add("active")
+      document.getElementById("song-search").value = ""
+      refreshSongSearch(true)
+    })
+  })
+
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
-      activeMethod = tab.dataset.method
+      if (tab.disabled) return
 
+      activeMethod = tab.dataset.method
       tabs.forEach(item => item.classList.remove("active"))
       tab.classList.add("active")
-
       renderRecommendations()
     })
   })
 }
 
+function hasTrajectory(song) {
+  const score = Number(song?.trajectory?.traj_score)
+  const directScore = Number(song?.traj_score)
+  return Number.isFinite(score) || Number.isFinite(directScore)
+}
+
+function getTrajectoryScore(song) {
+  const nestedScore = Number(song?.trajectory?.traj_score)
+  if (Number.isFinite(nestedScore)) return nestedScore
+
+  const directScore = Number(song?.traj_score)
+  return Number.isFinite(directScore) ? directScore : null
+}
+
+function getSearchPool() {
+  return searchMode === "trajectory"
+    ? songs.filter(hasTrajectory)
+    : songs
+}
+
+function refreshSongSearch(selectFirst) {
+  const query = document.getElementById("song-search").value.trim().toLowerCase()
+  const pool = getSearchPool()
+
+  const filteredSongs = pool.filter(song => {
+    const songName = String(song.song || "").toLowerCase()
+    const artistName = String(song.artist || "").toLowerCase()
+    return songName.includes(query) || artistName.includes(query)
+  })
+
+  populateSongSelect(filteredSongs)
+  updateSearchModeNote(pool.length)
+
+  if (filteredSongs.length === 0) {
+    setStatus(
+      searchMode === "trajectory"
+        ? "No matching songs with trajectory data were found."
+        : "No matching songs found."
+    )
+    return
+  }
+
+  setStatus(`${filteredSongs.length.toLocaleString()} songs available in this search.`)
+
+  const selectedStillVisible = filteredSongs.some(song => String(song.id) === selectedSongId)
+  if (selectFirst || !selectedStillVisible) {
+    selectSong(String(filteredSongs[0].id))
+  }
+}
+
+function updateSearchModeNote(poolSize) {
+  const note = document.getElementById("search-mode-note")
+
+  note.textContent = searchMode === "trajectory"
+    ? `Showing only the ${poolSize.toLocaleString()} songs that have trajectory scores and trajectory recommendations available.`
+    : "Showing the full music catalog. Songs without trajectory data will clearly display Trajectory unavailable."
+}
+
 function populateSongSelect(songList) {
   const songSelect = document.getElementById("song-select")
   const currentValue = songSelect.value
-
   songSelect.innerHTML = ""
 
   if (songList.length === 0) {
@@ -109,7 +158,6 @@ function populateSongSelect(songList) {
     option.textContent = song.artist
       ? `${song.song} — ${song.artist}`
       : song.song
-
     fragment.appendChild(option)
   })
 
@@ -132,6 +180,7 @@ function selectSong(songId) {
   }
 
   renderSelectedSong(song)
+  updateTrajectoryMethod(song)
   renderRecommendations()
 }
 
@@ -141,33 +190,52 @@ function renderSelectedSong(song) {
 
   document.getElementById("selected-title").textContent = song.song || "Unknown song"
   document.getElementById("selected-artist").textContent = song.artist || "Unknown artist"
-
-  const trajectoryScore = song.trajectory?.traj_score
-  document.getElementById("trajectory-score").textContent =
-    formatNumber(trajectoryScore, 3)
-
-  document.getElementById("tempo-value").textContent =
-    formatNumber(song.features?.tempo, 1)
-
-  document.getElementById("energy-value").textContent =
-    formatNumber(song.features?.energy, 3)
-
-  document.getElementById("danceability-value").textContent =
-    formatNumber(song.features?.danceability, 3)
+  document.getElementById("trajectory-score").textContent = formatNumber(getTrajectoryScore(song), 3)
+  document.getElementById("tempo-value").textContent = formatNumber(song.features?.tempo, 1)
+  document.getElementById("energy-value").textContent = formatNumber(song.features?.energy, 3)
+  document.getElementById("danceability-value").textContent = formatNumber(song.features?.danceability, 3)
 
   const badge = document.getElementById("trajectory-badge")
-  const level = String(song.traj_level || "unavailable").toLowerCase()
+  const available = hasTrajectory(song)
+  const level = String(song.traj_level || song.trajectory?.traj_level || "unavailable").toLowerCase()
 
-  badge.textContent = level === "unavailable"
-    ? "Trajectory unavailable"
-    : `${level} trajectory`
+  badge.textContent = available && ["low", "medium", "high"].includes(level)
+    ? `${level} trajectory`
+    : available
+      ? "Trajectory available"
+      : "Trajectory unavailable"
 
   badge.className = "trajectory-badge"
-  if (["low", "medium", "high"].includes(level)) {
+  if (available && ["low", "medium", "high"].includes(level)) {
     badge.classList.add(level)
   }
 
   renderFeatureGrid(song.features || {})
+}
+
+function updateTrajectoryMethod(song) {
+  const trajectoryTab = document.querySelector('[data-method="trajectory"]')
+  const note = document.getElementById("trajectory-method-note")
+  const available = hasTrajectory(song) && (recommendations[selectedSongId]?.trajectory || []).length > 0
+
+  trajectoryTab.disabled = !available
+  trajectoryTab.setAttribute("aria-disabled", String(!available))
+
+  if (!available) {
+    trajectoryTab.title = "Trajectory recommendations are unavailable for this song"
+    note.textContent = "Trajectory recommendations are unavailable for this song. Choose a song from Trajectory songs only to use this method."
+    note.classList.remove("hidden")
+
+    if (activeMethod === "trajectory") {
+      activeMethod = "cosine"
+      document.querySelectorAll(".method-tab").forEach(item => item.classList.remove("active"))
+      document.querySelector('[data-method="cosine"]').classList.add("active")
+    }
+  } else {
+    trajectoryTab.title = ""
+    note.textContent = ""
+    note.classList.add("hidden")
+  }
 }
 
 function renderFeatureGrid(features) {
@@ -192,22 +260,17 @@ function renderFeatureGrid(features) {
 function renderRecommendations() {
   const list = document.getElementById("recommendation-list")
   const description = document.getElementById("method-description")
-
   description.textContent = METHOD_DESCRIPTIONS[activeMethod]
 
-  const selectedRecommendations =
-    recommendations[selectedSongId]?.[activeMethod] || []
-
+  const selectedRecommendations = recommendations[selectedSongId]?.[activeMethod] || []
   list.innerHTML = ""
 
   if (selectedRecommendations.length === 0) {
     const empty = document.createElement("div")
     empty.className = "empty-state"
-
     empty.textContent = activeMethod === "trajectory"
-      ? "No trajectory recommendations are available for this song."
+      ? "Trajectory recommendations are unavailable for this song."
       : "No recommendations are available for this method."
-
     list.appendChild(empty)
     return
   }
@@ -222,7 +285,6 @@ function renderRecommendations() {
     card.setAttribute("role", "button")
 
     const textWrap = document.createElement("div")
-
     const title = document.createElement("h3")
     title.textContent = `${rank + 1}. ${song.song || "Unknown song"}`
 
@@ -237,6 +299,13 @@ function renderRecommendations() {
     card.append(textWrap, score)
 
     const openSong = () => {
+      if (searchMode === "trajectory" && !hasTrajectory(song)) {
+        searchMode = "all"
+        document.querySelectorAll(".search-mode").forEach(item => item.classList.remove("active"))
+        document.querySelector('[data-search-mode="all"]').classList.add("active")
+        refreshSongSearch(false)
+      }
+
       selectSong(String(song.id))
       document.getElementById("selected-song").scrollIntoView({
         behavior: "smooth",
@@ -258,12 +327,7 @@ function renderRecommendations() {
 
 function formatNumber(value, digits) {
   const number = Number(value)
-
-  if (!Number.isFinite(number)) {
-    return "Unavailable"
-  }
-
-  return number.toFixed(digits)
+  return Number.isFinite(number) ? number.toFixed(digits) : "Unavailable"
 }
 
 function setStatus(message, isError = false) {
