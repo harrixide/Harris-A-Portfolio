@@ -79,23 +79,38 @@ function bindControls() {
   })
 }
 
+function isUsableNumber(value) {
+  if (value === null || value === undefined || value === "") return false
+  return Number.isFinite(Number(value))
+}
+
 function hasTrajectory(song) {
-  const score = Number(song?.trajectory?.traj_score)
-  const directScore = Number(song?.traj_score)
-  return Number.isFinite(score) || Number.isFinite(directScore)
+  return isUsableNumber(song?.trajectory?.traj_score) ||
+    isUsableNumber(song?.traj_score)
+}
+
+function hasTrajectoryRecommendations(song) {
+  const songId = String(song?.id ?? "")
+  return hasTrajectory(song) &&
+    Array.isArray(recommendations[songId]?.trajectory) &&
+    recommendations[songId].trajectory.length > 0
 }
 
 function getTrajectoryScore(song) {
-  const nestedScore = Number(song?.trajectory?.traj_score)
-  if (Number.isFinite(nestedScore)) return nestedScore
+  if (isUsableNumber(song?.trajectory?.traj_score)) {
+    return Number(song.trajectory.traj_score)
+  }
 
-  const directScore = Number(song?.traj_score)
-  return Number.isFinite(directScore) ? directScore : null
+  if (isUsableNumber(song?.traj_score)) {
+    return Number(song.traj_score)
+  }
+
+  return null
 }
 
 function getSearchPool() {
   return searchMode === "trajectory"
-    ? songs.filter(hasTrajectory)
+    ? songs.filter(hasTrajectoryRecommendations)
     : songs
 }
 
@@ -115,7 +130,7 @@ function refreshSongSearch(selectFirst) {
   if (filteredSongs.length === 0) {
     setStatus(
       searchMode === "trajectory"
-        ? "No matching songs with trajectory data were found."
+        ? "No matching songs with trajectory recommendations were found."
         : "No matching songs found."
     )
     return
@@ -133,8 +148,8 @@ function updateSearchModeNote(poolSize) {
   const note = document.getElementById("search-mode-note")
 
   note.textContent = searchMode === "trajectory"
-    ? `Showing only the ${poolSize.toLocaleString()} songs that have trajectory scores and trajectory recommendations available.`
-    : "Showing the full music catalog. Songs without trajectory data will clearly display Trajectory unavailable."
+    ? `Trajectory mode: ${poolSize.toLocaleString()} songs with usable trajectory scores and recommendations. The dropdown is now filtered to only those songs.`
+    : `All songs mode: showing the full catalog. Songs without usable trajectory data will display Trajectory unavailable.`
 }
 
 function populateSongSelect(songList) {
@@ -216,14 +231,14 @@ function renderSelectedSong(song) {
 function updateTrajectoryMethod(song) {
   const trajectoryTab = document.querySelector('[data-method="trajectory"]')
   const note = document.getElementById("trajectory-method-note")
-  const available = hasTrajectory(song) && (recommendations[selectedSongId]?.trajectory || []).length > 0
+  const available = hasTrajectoryRecommendations(song)
 
   trajectoryTab.disabled = !available
   trajectoryTab.setAttribute("aria-disabled", String(!available))
 
   if (!available) {
     trajectoryTab.title = "Trajectory recommendations are unavailable for this song"
-    note.textContent = "Trajectory recommendations are unavailable for this song. Choose a song from Trajectory songs only to use this method."
+    note.textContent = "Trajectory recommendations are unavailable for this song. Choose Trajectory songs only above to select a compatible song."
     note.classList.remove("hidden")
 
     if (activeMethod === "trajectory") {
@@ -299,7 +314,7 @@ function renderRecommendations() {
     card.append(textWrap, score)
 
     const openSong = () => {
-      if (searchMode === "trajectory" && !hasTrajectory(song)) {
+      if (searchMode === "trajectory" && !hasTrajectoryRecommendations(song)) {
         searchMode = "all"
         document.querySelectorAll(".search-mode").forEach(item => item.classList.remove("active"))
         document.querySelector('[data-search-mode="all"]').classList.add("active")
@@ -326,8 +341,9 @@ function renderRecommendations() {
 }
 
 function formatNumber(value, digits) {
-  const number = Number(value)
-  return Number.isFinite(number) ? number.toFixed(digits) : "Unavailable"
+  return isUsableNumber(value)
+    ? Number(value).toFixed(digits)
+    : "Unavailable"
 }
 
 function setStatus(message, isError = false) {
