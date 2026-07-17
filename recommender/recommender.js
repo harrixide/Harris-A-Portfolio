@@ -7,22 +7,22 @@ const METHOD_DESCRIPTIONS = {
 const METHOD_VISUALS = {
   cosine: {
     title: "How Audio Similarity Works",
-    caption: "The selected song and its recommendations are compared across audio features. Closely matching profiles indicate stronger overall similarity.",
+    caption: "Example: the selected song and its recommendations are compared across audio features. Closely matching profiles indicate stronger overall similarity.",
     type: "graphic"
   },
   unique: {
     title: "Finding a Similar Song That Stands Out",
-    caption: "The highlighted points show nearby songs within a larger audio feature space. This method chooses a musically similar song that is especially distinctive within that neighborhood.",
+    caption: "Example: the highlighted points show nearby songs within a larger audio feature space. This method chooses a musically similar song that is especially distinctive within that neighborhood.",
     type: "image",
     src: "assets/familiar-with-a-twist.png",
-    alt: "Feature-space visualization for Drake 4PM in Calabasas with highlighted nearby songs"
+    alt: "Example feature-space visualization for Drake 4PM in Calabasas with highlighted nearby songs"
   },
   trajectory: {
     title: "How a Song's Audio Changes Over Time",
-    caption: "Each labeled point represents a 30-second segment. The path shows how the song moves through its audio feature space from beginning to end.",
+    caption: "Example: each labeled point represents a 30-second segment. The path shows how one song moves through its audio feature space from beginning to end.",
     type: "image",
     src: "assets/similar-musical-journey.png",
-    alt: "Three-dimensional Musical Journey plot showing thirty-second song segments over time"
+    alt: "Example three-dimensional Musical Journey plot showing thirty-second song segments over time"
   }
 }
 
@@ -88,14 +88,16 @@ function bindControls() {
 
 function renderMethodVisual() {
   const visual = METHOD_VISUALS[activeMethod]
+  const panel = document.getElementById("method-visual")
   const title = document.getElementById("method-visual-title")
   const caption = document.getElementById("method-visual-caption")
   const image = document.getElementById("method-visual-image")
   const graphic = document.getElementById("audio-similarity-graphic")
-  if (!visual || !title || !caption || !image || !graphic) return
+  if (!visual || !panel || !title || !caption || !image || !graphic) return
 
   title.textContent = visual.title
   caption.textContent = visual.caption
+  panel.classList.toggle("compact-image", visual.type === "image")
 
   if (visual.type === "image") {
     graphic.style.display = "none"
