@@ -4,6 +4,28 @@ const METHOD_DESCRIPTIONS = {
   trajectory: "Songs whose musical journey changes most similarly over time. We split each song into 30-second segments, analyze each segment individually, and recommend songs that evolve in the most similar way from beginning to end."
 }
 
+const METHOD_VISUALS = {
+  cosine: {
+    title: "How Audio Similarity Works",
+    caption: "The selected song and its recommendations are compared across audio features. Closely matching profiles indicate stronger overall similarity.",
+    type: "graphic"
+  },
+  unique: {
+    title: "Finding a Similar Song That Stands Out",
+    caption: "The highlighted points show nearby songs within a larger audio feature space. This method chooses a musically similar song that is especially distinctive within that neighborhood.",
+    type: "image",
+    src: "assets/familiar-with-a-twist.png",
+    alt: "Feature-space visualization for Drake 4PM in Calabasas with highlighted nearby songs"
+  },
+  trajectory: {
+    title: "How a Song's Audio Changes Over Time",
+    caption: "Each labeled point represents a 30-second segment. The path shows how the song moves through its audio feature space from beginning to end.",
+    type: "image",
+    src: "assets/similar-musical-journey.png",
+    alt: "Three-dimensional Musical Journey plot showing thirty-second song segments over time"
+  }
+}
+
 let songs = []
 let recommendations = {}
 let selectedSongId = null
@@ -14,31 +36,20 @@ document.addEventListener("DOMContentLoaded", init)
 
 async function init() {
   bindControls()
-
+  renderMethodVisual()
   try {
     const [songsResponse, recommendationsResponse] = await Promise.all([
       fetch("songs.json"),
       fetch("recommendations.json")
     ])
-
-    if (!songsResponse.ok || !recommendationsResponse.ok) {
-      throw new Error("Could not load one or both JSON files.")
-    }
-
+    if (!songsResponse.ok || !recommendationsResponse.ok) throw new Error("Could not load one or both JSON files.")
     songs = await songsResponse.json()
     recommendations = await recommendationsResponse.json()
-
-    if (!Array.isArray(songs) || songs.length === 0) {
-      throw new Error("songs.json is empty.")
-    }
-
+    if (!Array.isArray(songs) || songs.length === 0) throw new Error("songs.json is empty.")
     refreshSongSearch(true)
   } catch (error) {
     console.error(error)
-    setStatus(
-      "The recommender data could not be loaded. Put songs.json and recommendations.json in this recommender folder.",
-      true
-    )
+    setStatus("The recommender data could not be loaded. Put songs.json and recommendations.json in this recommender folder.", true)
   }
 }
 
@@ -49,11 +60,8 @@ function bindControls() {
   const searchModeButtons = document.querySelectorAll(".search-mode")
 
   searchInput.addEventListener("input", () => refreshSongSearch(false))
-
   songSelect.addEventListener("change", event => {
-    if (event.target.value !== "") {
-      selectSong(event.target.value)
-    }
+    if (event.target.value !== "") selectSong(event.target.value)
   })
 
   searchModeButtons.forEach(button => {
@@ -69,13 +77,41 @@ function bindControls() {
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
       if (tab.disabled) return
-
       activeMethod = tab.dataset.method
       tabs.forEach(item => item.classList.remove("active"))
       tab.classList.add("active")
+      renderMethodVisual()
       renderRecommendations()
     })
   })
+}
+
+function renderMethodVisual() {
+  const visual = METHOD_VISUALS[activeMethod]
+  const title = document.getElementById("method-visual-title")
+  const caption = document.getElementById("method-visual-caption")
+  const image = document.getElementById("method-visual-image")
+  const graphic = document.getElementById("audio-similarity-graphic")
+  if (!visual || !title || !caption || !image || !graphic) return
+
+  title.textContent = visual.title
+  caption.textContent = visual.caption
+
+  if (visual.type === "image") {
+    graphic.style.display = "none"
+    image.hidden = false
+    image.src = visual.src
+    image.alt = visual.alt
+    image.onerror = () => {
+      image.hidden = true
+      caption.textContent = `${visual.caption} Image asset not found yet.`
+    }
+  } else {
+    image.hidden = true
+    image.removeAttribute("src")
+    image.alt = ""
+    graphic.style.display = "block"
+  }
 }
 
 function isUsableNumber(value) {
@@ -84,39 +120,27 @@ function isUsableNumber(value) {
 }
 
 function hasTrajectory(song) {
-  return isUsableNumber(song?.trajectory?.traj_score) ||
-    isUsableNumber(song?.traj_score)
+  return isUsableNumber(song?.trajectory?.traj_score) || isUsableNumber(song?.traj_score)
 }
 
 function hasTrajectoryRecommendations(song) {
   const songId = String(song?.id ?? "")
-  return hasTrajectory(song) &&
-    Array.isArray(recommendations[songId]?.trajectory) &&
-    recommendations[songId].trajectory.length > 0
+  return hasTrajectory(song) && Array.isArray(recommendations[songId]?.trajectory) && recommendations[songId].trajectory.length > 0
 }
 
 function getTrajectoryScore(song) {
-  if (isUsableNumber(song?.trajectory?.traj_score)) {
-    return Number(song.trajectory.traj_score)
-  }
-
-  if (isUsableNumber(song?.traj_score)) {
-    return Number(song.traj_score)
-  }
-
+  if (isUsableNumber(song?.trajectory?.traj_score)) return Number(song.trajectory.traj_score)
+  if (isUsableNumber(song?.traj_score)) return Number(song.traj_score)
   return null
 }
 
 function getSearchPool() {
-  return searchMode === "trajectory"
-    ? songs.filter(hasTrajectoryRecommendations)
-    : songs
+  return searchMode === "trajectory" ? songs.filter(hasTrajectoryRecommendations) : songs
 }
 
 function refreshSongSearch(selectFirst) {
   const query = document.getElementById("song-search").value.trim().toLowerCase()
   const pool = getSearchPool()
-
   const filteredSongs = pool.filter(song => {
     const songName = String(song.song || "").toLowerCase()
     const artistName = String(song.artist || "").toLowerCase()
@@ -127,25 +151,17 @@ function refreshSongSearch(selectFirst) {
   updateSearchModeNote(pool.length)
 
   if (filteredSongs.length === 0) {
-    setStatus(
-      searchMode === "trajectory"
-        ? "No matching songs with Musical Journey recommendations were found."
-        : "No matching songs found."
-    )
+    setStatus(searchMode === "trajectory" ? "No matching songs with Musical Journey recommendations were found." : "No matching songs found.")
     return
   }
 
   setStatus(`${filteredSongs.length.toLocaleString()} songs available in this search.`)
-
   const selectedStillVisible = filteredSongs.some(song => String(song.id) === selectedSongId)
-  if (selectFirst || !selectedStillVisible) {
-    selectSong(String(filteredSongs[0].id))
-  }
+  if (selectFirst || !selectedStillVisible) selectSong(String(filteredSongs[0].id))
 }
 
 function updateSearchModeNote(poolSize) {
   const note = document.getElementById("search-mode-note")
-
   note.textContent = searchMode === "trajectory"
     ? `Showing ${poolSize.toLocaleString()} songs with Musical Journey recommendations available.`
     : `Showing the full catalog of ${songs.length.toLocaleString()} songs. Songs without Musical Journey data display Musical Journey unavailable.`
@@ -165,43 +181,31 @@ function populateSongSelect(songList) {
   }
 
   const fragment = document.createDocumentFragment()
-
   songList.forEach(song => {
     const option = document.createElement("option")
     option.value = String(song.id)
-    option.textContent = song.artist
-      ? `${song.song} — ${song.artist}`
-      : song.song
+    option.textContent = song.artist ? `${song.song} — ${song.artist}` : song.song
     fragment.appendChild(option)
   })
-
   songSelect.appendChild(fragment)
-
-  if ([...songSelect.options].some(option => option.value === currentValue)) {
-    songSelect.value = currentValue
-  }
+  if ([...songSelect.options].some(option => option.value === currentValue)) songSelect.value = currentValue
 }
 
 function selectSong(songId) {
   const song = songs.find(item => String(item.id) === String(songId))
   if (!song) return
-
   selectedSongId = String(song.id)
-
   const songSelect = document.getElementById("song-select")
-  if ([...songSelect.options].some(option => option.value === selectedSongId)) {
-    songSelect.value = selectedSongId
-  }
-
+  if ([...songSelect.options].some(option => option.value === selectedSongId)) songSelect.value = selectedSongId
   renderSelectedSong(song)
   updateTrajectoryMethod(song)
+  renderMethodVisual()
   renderRecommendations()
 }
 
 function renderSelectedSong(song) {
   document.getElementById("selected-song").classList.remove("hidden")
   document.getElementById("recommendation-section").classList.remove("hidden")
-
   document.getElementById("selected-title").textContent = song.song || "Unknown song"
   document.getElementById("selected-artist").textContent = song.artist || "Unknown artist"
   document.getElementById("trajectory-score").textContent = formatNumber(getTrajectoryScore(song), 3)
@@ -212,18 +216,11 @@ function renderSelectedSong(song) {
   const badge = document.getElementById("trajectory-badge")
   const available = hasTrajectory(song)
   const level = String(song.traj_level || song.trajectory?.traj_level || "unavailable").toLowerCase()
-
   badge.textContent = available && ["low", "medium", "high"].includes(level)
     ? `${level} journey complexity`
-    : available
-      ? "Musical Journey available"
-      : "Musical Journey unavailable"
-
+    : available ? "Musical Journey available" : "Musical Journey unavailable"
   badge.className = "trajectory-badge"
-  if (available && ["low", "medium", "high"].includes(level)) {
-    badge.classList.add(level)
-  }
-
+  if (available && ["low", "medium", "high"].includes(level)) badge.classList.add(level)
   renderFeatureGrid(song.features || {})
 }
 
@@ -231,7 +228,6 @@ function updateTrajectoryMethod(song) {
   const trajectoryTab = document.querySelector('[data-method="trajectory"]')
   const note = document.getElementById("trajectory-method-note")
   const available = hasTrajectoryRecommendations(song)
-
   trajectoryTab.disabled = !available
   trajectoryTab.setAttribute("aria-disabled", String(!available))
 
@@ -239,11 +235,11 @@ function updateTrajectoryMethod(song) {
     trajectoryTab.title = "Musical Journey recommendations are unavailable for this song"
     note.textContent = 'Musical Journey recommendations are unavailable for this song. Select "Songs with Musical Journey Recommendations" above to browse compatible songs.'
     note.classList.remove("hidden")
-
     if (activeMethod === "trajectory") {
       activeMethod = "cosine"
       document.querySelectorAll(".method-tab").forEach(item => item.classList.remove("active"))
       document.querySelector('[data-method="cosine"]').classList.add("active")
+      renderMethodVisual()
     }
   } else {
     trajectoryTab.title = ""
@@ -255,17 +251,13 @@ function updateTrajectoryMethod(song) {
 function renderFeatureGrid(features) {
   const grid = document.getElementById("feature-grid")
   grid.innerHTML = ""
-
   Object.entries(features).forEach(([name, value]) => {
     const item = document.createElement("div")
     item.className = "feature-item"
-
     const label = document.createElement("span")
     label.textContent = name.replaceAll("_", " ")
-
     const number = document.createElement("strong")
     number.textContent = formatNumber(value, 3)
-
     item.append(label, number)
     grid.appendChild(item)
   })
@@ -273,9 +265,7 @@ function renderFeatureGrid(features) {
 
 function renderRecommendations() {
   const list = document.getElementById("recommendation-list")
-  const description = document.getElementById("method-description")
-  description.textContent = METHOD_DESCRIPTIONS[activeMethod]
-
+  document.getElementById("method-description").textContent = METHOD_DESCRIPTIONS[activeMethod]
   const selectedRecommendations = recommendations[selectedSongId]?.[activeMethod] || []
   list.innerHTML = ""
 
@@ -292,23 +282,18 @@ function renderRecommendations() {
   selectedRecommendations.forEach((recommendation, rank) => {
     const song = songs[recommendation.index]
     if (!song) return
-
     const card = document.createElement("article")
     card.className = "recommendation-card"
     card.tabIndex = 0
     card.setAttribute("role", "button")
-
     const textWrap = document.createElement("div")
     const title = document.createElement("h3")
     title.textContent = `${rank + 1}. ${song.song || "Unknown song"}`
-
     const artist = document.createElement("p")
     artist.textContent = song.artist || "Unknown artist"
-
     const score = document.createElement("div")
     score.className = "score"
     score.textContent = formatNumber(recommendation.score, 3)
-
     textWrap.append(title, artist)
     card.append(textWrap, score)
 
@@ -319,12 +304,8 @@ function renderRecommendations() {
         document.querySelector('[data-search-mode="all"]').classList.add("active")
         refreshSongSearch(false)
       }
-
       selectSong(String(song.id))
-      document.getElementById("selected-song").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      })
+      document.getElementById("selected-song").scrollIntoView({ behavior: "smooth", block: "start" })
     }
 
     card.addEventListener("click", openSong)
@@ -334,7 +315,6 @@ function renderRecommendations() {
         openSong()
       }
     })
-
     list.appendChild(card)
   })
 }
