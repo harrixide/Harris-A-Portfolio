@@ -9,6 +9,46 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="recommender.css">
+  <style>
+    .search-mode-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .search-mode {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      cursor: pointer;
+    }
+
+    .search-mode.active {
+      color: #08111d;
+      background: var(--accent);
+      font-weight: 700;
+    }
+
+    .search-mode-note,
+    .trajectory-method-note {
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+    }
+
+    .trajectory-method-note {
+      padding: 0.8rem 1rem;
+      border: 1px dashed var(--border);
+      border-radius: 0.8rem;
+    }
+
+    .method-tab:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
   <header class="rec-header">
@@ -28,7 +68,7 @@
     </section>
 
     <section class="search-panel">
-      <label for="search-mode">Search method</label>
+      <label>Search method</label>
       <div class="search-mode-row">
         <button class="search-mode active" type="button" data-search-mode="all">All songs</button>
         <button class="search-mode" type="button" data-search-mode="trajectory">Trajectory songs only</button>
@@ -36,12 +76,7 @@
 
       <label for="song-search">Search songs</label>
       <div class="search-row">
-        <input
-          id="song-search"
-          type="search"
-          placeholder="Type a song or artist"
-          autocomplete="off"
-        >
+        <input id="song-search" type="search" placeholder="Type a song or artist" autocomplete="off">
         <select id="song-select" aria-label="Select a song">
           <option value="">Loading songs...</option>
         </select>
@@ -61,22 +96,10 @@
       </div>
 
       <div class="stats-grid">
-        <article class="stat-card">
-          <span>Trajectory score</span>
-          <strong id="trajectory-score">Unavailable</strong>
-        </article>
-        <article class="stat-card">
-          <span>Tempo</span>
-          <strong id="tempo-value">Unavailable</strong>
-        </article>
-        <article class="stat-card">
-          <span>Energy</span>
-          <strong id="energy-value">Unavailable</strong>
-        </article>
-        <article class="stat-card">
-          <span>Danceability</span>
-          <strong id="danceability-value">Unavailable</strong>
-        </article>
+        <article class="stat-card"><span>Trajectory score</span><strong id="trajectory-score">Unavailable</strong></article>
+        <article class="stat-card"><span>Tempo</span><strong id="tempo-value">Unavailable</strong></article>
+        <article class="stat-card"><span>Energy</span><strong id="energy-value">Unavailable</strong></article>
+        <article class="stat-card"><span>Danceability</span><strong id="danceability-value">Unavailable</strong></article>
       </div>
 
       <details class="feature-details">
