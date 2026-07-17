@@ -129,7 +129,7 @@ function refreshSongSearch(selectFirst) {
   if (filteredSongs.length === 0) {
     setStatus(
       searchMode === "trajectory"
-        ? "No matching songs with musical journey recommendations were found."
+        ? "No matching songs with Musical Journey recommendations were found."
         : "No matching songs found."
     )
     return
@@ -147,8 +147,8 @@ function updateSearchModeNote(poolSize) {
   const note = document.getElementById("search-mode-note")
 
   note.textContent = searchMode === "trajectory"
-    ? `Showing ${poolSize.toLocaleString()} songs with musical journey analysis and recommendations.`
-    : `Showing the full catalog of ${songs.length.toLocaleString()} songs. Songs without musical journey data display Journey unavailable.`
+    ? `Showing ${poolSize.toLocaleString()} songs with Musical Journey recommendations available.`
+    : `Showing the full catalog of ${songs.length.toLocaleString()} songs. Songs without Musical Journey data display Musical Journey unavailable.`
 }
 
 function populateSongSelect(songList) {
@@ -214,10 +214,10 @@ function renderSelectedSong(song) {
   const level = String(song.traj_level || song.trajectory?.traj_level || "unavailable").toLowerCase()
 
   badge.textContent = available && ["low", "medium", "high"].includes(level)
-    ? `${level} journey change`
+    ? `${level} journey complexity`
     : available
-      ? "Journey available"
-      : "Journey unavailable"
+      ? "Musical Journey available"
+      : "Musical Journey unavailable"
 
   badge.className = "trajectory-badge"
   if (available && ["low", "medium", "high"].includes(level)) {
@@ -236,8 +236,8 @@ function updateTrajectoryMethod(song) {
   trajectoryTab.setAttribute("aria-disabled", String(!available))
 
   if (!available) {
-    trajectoryTab.title = "Musical journey recommendations are unavailable for this song"
-    note.textContent = "Similar Musical Journey recommendations are unavailable for this song. Choose Musical journey songs only above to find compatible songs."
+    trajectoryTab.title = "Musical Journey recommendations are unavailable for this song"
+    note.textContent = 'Musical Journey recommendations are unavailable for this song. Select "Songs with Musical Journey Recommendations" above to browse compatible songs.'
     note.classList.remove("hidden")
 
     if (activeMethod === "trajectory") {
@@ -283,7 +283,7 @@ function renderRecommendations() {
     const empty = document.createElement("div")
     empty.className = "empty-state"
     empty.textContent = activeMethod === "trajectory"
-      ? "Similar Musical Journey recommendations are unavailable for this song."
+      ? "Musical Journey recommendations are unavailable for this song."
       : "No recommendations are available for this method."
     list.appendChild(empty)
     return
