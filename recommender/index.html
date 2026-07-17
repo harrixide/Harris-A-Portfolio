@@ -25,6 +25,12 @@
       background: rgba(255,255,255,.035);
     }
 
+    .method-visual.compact-image {
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     .method-visual-copy { margin-bottom: .9rem; }
     .method-visual-copy h3 { margin: 0 0 .35rem; font-size: 1.15rem; }
     .method-visual-copy p { margin: 0; color: var(--muted); line-height: 1.55; }
@@ -43,6 +49,8 @@
       object-fit: contain;
       background: #fff;
     }
+
+    .compact-image .method-visual-frame img { max-height: 360px; }
 
     .audio-similarity-graphic {
       display: none;
@@ -63,6 +71,8 @@
 
     @media (max-width: 650px) {
       .method-visual { padding:.7rem; }
+      .method-visual.compact-image { max-width:100%; }
+      .compact-image .method-visual-frame img { max-height:300px; }
       .audio-similarity-graphic { padding:1rem; min-height:280px; }
       .audio-bars { gap:.4rem; }
       .audio-labels { gap:.3rem; font-size:.65rem; }
