@@ -10,43 +10,62 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="recommender.css">
   <style>
-    .search-mode-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-      margin-bottom: 1.2rem;
-    }
+    .search-mode-row { display:flex; flex-wrap:wrap; gap:.65rem; margin-bottom:1.2rem; }
+    .search-mode { padding:.75rem 1rem; border:1px solid var(--border); border-radius:999px; color:var(--text); background:rgba(255,255,255,.05); cursor:pointer; }
+    .search-mode.active { color:#08111d; background:var(--accent); font-weight:700; }
+    .search-mode-note, .trajectory-method-note { margin:.75rem 0 0; color:var(--muted); }
+    .trajectory-method-note { padding:.8rem 1rem; border:1px dashed var(--border); border-radius:.8rem; }
+    .method-tab:disabled { opacity:.42; cursor:not-allowed; }
 
-    .search-mode {
-      padding: 0.75rem 1rem;
+    .method-visual {
+      margin: 1.25rem 0 1.5rem;
+      padding: 1rem;
       border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--text);
-      background: rgba(255,255,255,0.05);
-      cursor: pointer;
+      border-radius: 1rem;
+      background: rgba(255,255,255,.035);
     }
 
-    .search-mode.active {
-      color: #08111d;
-      background: var(--accent);
-      font-weight: 700;
+    .method-visual-copy { margin-bottom: .9rem; }
+    .method-visual-copy h3 { margin: 0 0 .35rem; font-size: 1.15rem; }
+    .method-visual-copy p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+    .method-visual-frame {
+      overflow: hidden;
+      border-radius: .8rem;
+      background: #fff;
+      border: 1px solid rgba(255,255,255,.08);
     }
 
-    .search-mode-note,
-    .trajectory-method-note {
-      margin: 0.75rem 0 0;
-      color: var(--muted);
+    .method-visual-frame img {
+      display: block;
+      width: 100%;
+      max-height: 650px;
+      object-fit: contain;
+      background: #fff;
     }
 
-    .trajectory-method-note {
-      padding: 0.8rem 1rem;
-      border: 1px dashed var(--border);
-      border-radius: 0.8rem;
+    .audio-similarity-graphic {
+      display: none;
+      padding: 2rem;
+      min-height: 330px;
+      color: #e5e7eb;
+      background: linear-gradient(145deg, #0f172a, #111827);
     }
 
-    .method-tab:disabled {
-      opacity: 0.42;
-      cursor: not-allowed;
+    .audio-bars { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; align-items:end; height:210px; margin-top:1.25rem; }
+    .audio-bar-group { display:flex; justify-content:center; align-items:flex-end; gap:.35rem; height:100%; }
+    .audio-bar { width:28%; min-width:18px; border-radius:.45rem .45rem 0 0; }
+    .audio-bar.selected { background:#38bdf8; }
+    .audio-bar.match { background:#c084fc; }
+    .audio-labels { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; margin-top:.65rem; text-align:center; color:#cbd5e1; font-size:.82rem; }
+    .audio-legend { display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.25rem; color:#cbd5e1; }
+    .legend-dot { width:.75rem; height:.75rem; border-radius:50%; display:inline-block; margin-right:.4rem; }
+
+    @media (max-width: 650px) {
+      .method-visual { padding:.7rem; }
+      .audio-similarity-graphic { padding:1rem; min-height:280px; }
+      .audio-bars { gap:.4rem; }
+      .audio-labels { gap:.3rem; font-size:.65rem; }
     }
   </style>
 </head>
@@ -62,9 +81,7 @@
     <section class="intro">
       <p class="eyebrow">Interactive Project</p>
       <h1>Unique Music Recommendations</h1>
-      <p>
-        Search all songs for audio-based recommendations, or browse songs with Musical Journey recommendations available.
-      </p>
+      <p>Search all songs for audio-based recommendations, or browse songs with Musical Journey recommendations available.</p>
     </section>
 
     <section class="search-panel">
@@ -73,13 +90,10 @@
         <button class="search-mode active" type="button" data-search-mode="all">All songs</button>
         <button class="search-mode" type="button" data-search-mode="trajectory">Songs with Musical Journey Recommendations</button>
       </div>
-
       <label for="song-search">Search songs</label>
       <div class="search-row">
         <input id="song-search" type="search" placeholder="Type a song or artist" autocomplete="off">
-        <select id="song-select" aria-label="Select a song">
-          <option value="">Loading songs...</option>
-        </select>
+        <select id="song-select" aria-label="Select a song"><option value="">Loading songs...</option></select>
       </div>
       <p id="search-mode-note" class="search-mode-note"></p>
       <p id="load-status" class="status" role="status"></p>
@@ -87,47 +101,54 @@
 
     <section id="selected-song" class="song-panel hidden">
       <div class="song-heading">
-        <div>
-          <p class="eyebrow">Selected Song</p>
-          <h2 id="selected-title"></h2>
-          <p id="selected-artist" class="artist"></p>
-        </div>
+        <div><p class="eyebrow">Selected Song</p><h2 id="selected-title"></h2><p id="selected-artist" class="artist"></p></div>
         <div id="trajectory-badge" class="trajectory-badge"></div>
       </div>
-
       <div class="stats-grid">
         <article class="stat-card"><span>Musical Journey Score</span><strong id="trajectory-score">Unavailable</strong></article>
         <article class="stat-card"><span>Tempo</span><strong id="tempo-value">Unavailable</strong></article>
         <article class="stat-card"><span>Energy</span><strong id="energy-value">Unavailable</strong></article>
         <article class="stat-card"><span>Danceability</span><strong id="danceability-value">Unavailable</strong></article>
       </div>
-
-      <details class="feature-details">
-        <summary>View all audio features</summary>
-        <div id="feature-grid" class="feature-grid"></div>
-      </details>
+      <details class="feature-details"><summary>View all audio features</summary><div id="feature-grid" class="feature-grid"></div></details>
     </section>
 
     <section id="recommendation-section" class="recommendation-panel hidden">
-      <div class="section-title-row">
-        <div>
-          <p class="eyebrow">Recommendations</p>
-          <h2>Choose a method</h2>
-        </div>
-      </div>
-
+      <div class="section-title-row"><div><p class="eyebrow">Recommendations</p><h2>Choose a method</h2></div></div>
       <div class="method-tabs" role="tablist" aria-label="Recommendation method">
         <button class="method-tab active" type="button" data-method="cosine">Audio Similarity</button>
         <button class="method-tab" type="button" data-method="unique">Familiar with a Twist</button>
         <button class="method-tab" type="button" data-method="trajectory">Similar Musical Journey</button>
       </div>
-
       <p id="trajectory-method-note" class="trajectory-method-note hidden"></p>
       <p id="method-description" class="method-description"></p>
+
+      <section id="method-visual" class="method-visual" aria-live="polite">
+        <div class="method-visual-copy">
+          <h3 id="method-visual-title"></h3>
+          <p id="method-visual-caption"></p>
+        </div>
+        <div class="method-visual-frame">
+          <img id="method-visual-image" alt="" hidden>
+          <div id="audio-similarity-graphic" class="audio-similarity-graphic">
+            <h3>Comparing Audio Feature Profiles</h3>
+            <p>Similar songs have feature values that follow closely related patterns.</p>
+            <div class="audio-bars">
+              <div class="audio-bar-group"><span class="audio-bar selected" style="height:82%"></span><span class="audio-bar match" style="height:76%"></span></div>
+              <div class="audio-bar-group"><span class="audio-bar selected" style="height:68%"></span><span class="audio-bar match" style="height:64%"></span></div>
+              <div class="audio-bar-group"><span class="audio-bar selected" style="height:75%"></span><span class="audio-bar match" style="height:71%"></span></div>
+              <div class="audio-bar-group"><span class="audio-bar selected" style="height:34%"></span><span class="audio-bar match" style="height:39%"></span></div>
+              <div class="audio-bar-group"><span class="audio-bar selected" style="height:61%"></span><span class="audio-bar match" style="height:57%"></span></div>
+            </div>
+            <div class="audio-labels"><span>Tempo</span><span>Energy</span><span>Danceability</span><span>Acousticness</span><span>Happiness</span></div>
+            <div class="audio-legend"><span><i class="legend-dot" style="background:#38bdf8"></i>Selected song</span><span><i class="legend-dot" style="background:#c084fc"></i>Similar recommendation</span></div>
+          </div>
+        </div>
+      </section>
+
       <div id="recommendation-list" class="recommendation-list"></div>
     </section>
   </main>
-
   <script src="recommender.js"></script>
 </body>
 </html>
