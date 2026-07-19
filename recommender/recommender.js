@@ -8,21 +8,17 @@ const METHOD_VISUALS = {
   cosine: {
     title: "How Audio Similarity Works",
     caption: "Example: the selected song and its recommendations are compared across audio features. Closely matching profiles indicate stronger overall similarity.",
-    type: "graphic"
+    graphicId: "audio-similarity-graphic"
   },
   unique: {
     title: "Finding a Similar Song That Stands Out",
-    caption: "Example: the highlighted points show nearby songs within a larger audio feature space. This method chooses a musically similar song that is especially distinctive within that neighborhood.",
-    type: "image",
-    src: "assets/familiar-with-a-twist.png",
-    alt: "Example feature-space visualization for Drake 4PM in Calabasas with highlighted nearby songs"
+    caption: "Example: gray points represent all songs, while the 10 equal red points represent the most similar sounding songs. The recommendation is the red song furthest along both uniqueness axes.",
+    graphicId: "unique-graphic"
   },
   trajectory: {
     title: "How a Song's Audio Changes Over Time",
-    caption: "Example: each labeled point represents a 30-second segment. The path shows how one song moves through its audio feature space from beginning to end.",
-    type: "image",
-    src: "assets/similar-musical-journey.png",
-    alt: "Example three-dimensional Musical Journey plot showing thirty-second song segments over time"
+    caption: "Example: each point represents a 30-second segment. The connected path shows how one song moves through its audio feature space from a clear starting point to its finish.",
+    graphicId: "trajectory-graphic"
   }
 }
 
@@ -88,32 +84,19 @@ function bindControls() {
 
 function renderMethodVisual() {
   const visual = METHOD_VISUALS[activeMethod]
-  const panel = document.getElementById("method-visual")
   const title = document.getElementById("method-visual-title")
   const caption = document.getElementById("method-visual-caption")
-  const image = document.getElementById("method-visual-image")
-  const graphic = document.getElementById("audio-similarity-graphic")
-  if (!visual || !panel || !title || !caption || !image || !graphic) return
+  if (!visual || !title || !caption) return
 
   title.textContent = visual.title
   caption.textContent = visual.caption
-  panel.classList.toggle("compact-image", visual.type === "image")
 
-  if (visual.type === "image") {
+  document.querySelectorAll(".method-graphic").forEach(graphic => {
     graphic.style.display = "none"
-    image.hidden = false
-    image.src = visual.src
-    image.alt = visual.alt
-    image.onerror = () => {
-      image.hidden = true
-      caption.textContent = `${visual.caption} Image asset not found yet.`
-    }
-  } else {
-    image.hidden = true
-    image.removeAttribute("src")
-    image.alt = ""
-    graphic.style.display = "block"
-  }
+  })
+
+  const activeGraphic = document.getElementById(visual.graphicId)
+  if (activeGraphic) activeGraphic.style.display = "block"
 }
 
 function isUsableNumber(value) {
